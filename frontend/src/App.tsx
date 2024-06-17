@@ -1,10 +1,11 @@
 import styled from "@emotion/styled";
 import { Box, CssBaseline, Toolbar } from "@mui/material";
 import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
-import { TopMenu } from "./TopMenu";
 import { Dashboard } from "./dashboard/Dashboard";
 import { Parametres } from "./parametres/Parametres";
-import { AppTheme } from "./Theme";
+import LandingPage from "./landing-page/LandingPage.tsx";
+import Navbar from "./components/Navbar.tsx";
+import Entreprises from "./entreprises/Entreprises.tsx";
 
 const router = createBrowserRouter([
   {
@@ -12,8 +13,16 @@ const router = createBrowserRouter([
     element: <Layout />,
     children: [
       {
+        path: "landing",
+        element: <LandingPage />
+      },
+      {
         path: "dashboard",
         element: <Dashboard />,
+      },
+      {
+        path: "entreprises",
+        element: <Entreprises />,
       },
       {
         path: "offres",
@@ -38,16 +47,17 @@ const MainBox = styled(Box)`
 
 function Layout() {
   return (
-    <AppTheme>
-      <MainBox>
-        <CssBaseline />
-        <TopMenu />
-        <Box component="main">
-          <Toolbar />
-          <Outlet />
-        </Box>
-      </MainBox>
-    </AppTheme>
+      <Navbar />
+    // <AppTheme>
+    //   <MainBox>
+    //     <CssBaseline />
+    //     <TopMenu />
+    //     <Box component="main">
+    //       <Toolbar />
+    //       <Outlet />
+    //     </Box>
+    //   </MainBox>
+    // </AppTheme>
   );
 }
 

@@ -1,0 +1,152 @@
+@use "../utils" as u;
+
+.navbar {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0 4rem;
+  background-color: var(--primary-white);
+  width: 100vw;
+  height: 6.6rem;
+  box-shadow: 0 -10px 20px rgba(0, 0, 0, 0.3);
+  gap: 10rem;
+
+  .navlist {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    ul {
+      display: flex;
+      align-items: center;
+      list-style: none;
+      gap: 3.2rem;
+      height: 100%;
+
+      .list-item {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: fit-content;
+        height: 100%;
+      }
+
+      li {
+        @include u.font("Poppins", 500, 1.4rem, var(--primary-black));
+        transition: all 0.2s ease;
+        cursor: pointer;
+
+        &:hover {
+          color: var(--primary-red);
+        }
+      }
+
+      li.active {
+        color: var(--primary-red);
+      }
+
+      div.active {
+        position: absolute;
+        top: calc(100% - 2px);
+        background-color: var(--primary-red);
+        width: 100%;
+        height: 2px;
+      }
+    }
+  }
+
+  .action {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2.4rem;
+
+    .icon-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 3.2rem;
+      height: 3.2rem;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.2s ease;
+
+      svg {
+        width: 1.8rem;
+      }
+
+      &:hover {
+        background-color: var(--secondary-grey);
+      }
+
+
+    }
+
+    .dropdown-infos {
+      position: absolute;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(45%) translateX(-10%);
+      width: fit-content;
+      background-color: var(--primary-white);
+      border: 1px solid var(--secondary-grey);
+      border-radius: 8px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+      transition: all 0.3s ease, opacity 0.2s ease;
+      z-index: 5;
+
+      ul {
+        list-style: none;
+        padding: 0.6rem 1rem;
+        margin: 0;
+        gap: 0.4rem;
+
+        li {
+          display: flex;
+          align-items: center;
+          padding: 0.5rem 1rem;
+          gap: 1.2rem;
+          border-radius: 0.8rem;
+          cursor: pointer;
+
+          .key {
+            display: flex;
+            align-items: center;
+
+            svg{
+              width: 1.8rem;
+            }
+            p {
+              width: fit-content;
+              @include u.font("Poppins", 600, 1.3rem, var(--primary-black));
+            }
+          }
+
+          .value {
+            p {
+              white-space: nowrap;
+              @include u.font("Poppins", 400, 1.2rem, var(--primary-black));
+            }
+          }
+
+          &:hover{
+            background-color: var(--secondary-grey);
+          }
+        }
+      }
+    }
+
+    .dropdown-infos-active {
+      transform: translateY(85%) translateX(-10%);
+      opacity: 1;
+      visibility: visible;
+    }
+
+  }
+  .icon-container:nth-child(2) {
+    &:hover {
+      background-color: var(--light-red);
+      color: var(--primary-red);
+    }
+  }
+}
