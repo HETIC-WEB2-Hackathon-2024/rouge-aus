@@ -1,6 +1,5 @@
-import styled from "@emotion/styled";
-import { Box, CssBaseline, Toolbar } from "@mui/material";
-import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
+import { Box} from "@mui/material";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { Dashboard } from "./dashboard/Dashboard";
 import { Parametres } from "./parametres/Parametres";
 import LandingPage from "./landing-page/LandingPage.tsx";
@@ -39,11 +38,11 @@ const router = createBrowserRouter([
     ],
   },
 ]);
-const MainBox = styled(Box)`
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-`;
+// const MainBox = styled(Box)`
+//   display: flex;
+//   flex-direction: column;
+//   height: 100%;
+// `;
 
 function Layout() {
   return (
