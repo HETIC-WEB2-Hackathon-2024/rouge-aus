@@ -6,7 +6,7 @@ export default function Navbar() {
     const [profileState, setProfileState] = useState(false)
     const navigation = useNavigate()
     const location = useLocation();
-    const dropdown = useRef(null)
+    const dropdown = useRef<HTMLDivElement>(null)
 
     const navbarList = [
         {
@@ -41,11 +41,15 @@ export default function Navbar() {
 
     useEffect(() => {
         if(profileState){
-            dropdown.current.classList.add("dropdown-infos-active")
-            setTimeout(() => {
-                dropdown.current.classList.remove("dropdown-infos-active")
-                setProfileState(false)
-            }, 3000)
+            if (dropdown.current) {
+                dropdown.current.classList.add("dropdown-infos-active");
+                setTimeout(() => {
+                    if (dropdown.current) {
+                        dropdown.current.classList.remove("dropdown-infos-active");
+                    }
+                    setProfileState(false);
+                }, 3000);
+            }
         }
     }, [profileState]);
 
