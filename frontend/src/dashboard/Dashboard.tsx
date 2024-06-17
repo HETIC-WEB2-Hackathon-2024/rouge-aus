@@ -14,6 +14,7 @@ export function Dashboard() {
         const token = await getAccessTokenSilently();
         const document = await authenticatedGet(token, "/v1/offres");
         setData(document);
+        console.log(document)
       } catch (error) {
         setError(`Error from web service: ${error}`);
       } finally {

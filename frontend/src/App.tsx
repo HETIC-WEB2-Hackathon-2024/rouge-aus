@@ -4,12 +4,18 @@ import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
 import { TopMenu } from "./TopMenu";
 import { Dashboard } from "./dashboard/Dashboard";
 import { AppTheme } from "./Theme";
+import LandingPage from "./landing-page/LandingPage.tsx";
+import Navbar from "./components/Navbar.tsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Layout />,
     children: [
+      {
+        path: "landing",
+        element: <LandingPage />
+      },
       {
         path: "dashboard",
         element: <Dashboard />,
@@ -37,16 +43,17 @@ const MainBox = styled(Box)`
 
 function Layout() {
   return (
-    <AppTheme>
-      <MainBox>
-        <CssBaseline />
-        <TopMenu />
-        <Box component="main">
-          <Toolbar />
-          <Outlet />
-        </Box>
-      </MainBox>
-    </AppTheme>
+      <Navbar />
+    // <AppTheme>
+    //   <MainBox>
+    //     <CssBaseline />
+    //     <TopMenu />
+    //     <Box component="main">
+    //       <Toolbar />
+    //       <Outlet />
+    //     </Box>
+    //   </MainBox>
+    // </AppTheme>
   );
 }
 
