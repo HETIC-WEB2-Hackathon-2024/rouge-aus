@@ -1,10 +1,11 @@
-import { Box} from "@mui/material";
+import { Box } from "@mui/material";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { Dashboard } from "./dashboard/Dashboard";
 import { Parametres } from "./parametres/Parametres";
 import LandingPage from "./landing-page/LandingPage.tsx";
 import Navbar from "./components/Navbar.tsx";
 import Entreprises from "./entreprises/Entreprises.tsx";
+import {Outlet} from "react-router-dom";
 
 const router = createBrowserRouter([
   {
@@ -28,7 +29,7 @@ const router = createBrowserRouter([
         element: <Box>Offres</Box>,
       },
       {
-        path: "parametres",
+        path: "profile",
         element: <Parametres />,
       },
       {
@@ -46,7 +47,10 @@ const router = createBrowserRouter([
 
 function Layout() {
   return (
-      <Navbar />
+      <>
+        <Navbar/>
+        <Outlet/>
+      </>
     // <AppTheme>
     //   <MainBox>
     //     <CssBaseline />

@@ -29,3 +29,8 @@ async function query(sqlStatement: string): Promise<any[]> {
 export function getFirstOffres(count: number = 3): Promise<any[]> {
   return query(`SELECT * FROM offre LIMIT ${count}`);
 }
+
+export function getFirstCandidats(email: string): Promise<any[]> {
+  return query(`SELECT * FROM candidat WHERE candidat.email = '${email}' LIMIT 1`)
+  .then(results => results[0]);
+}

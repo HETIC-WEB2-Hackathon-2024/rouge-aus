@@ -1,7 +1,7 @@
-import express from "express";
+import express, { json } from "express";
 import { auth } from "express-oauth2-jwt-bearer";
 import cors from "cors";
-import { getFirstOffres } from "./database";
+import { getFirstCandidats, getFirstOffres } from "./database";
 
 const port = 3000;
 const app = express();
@@ -11,18 +11,32 @@ const app = express();
 app.use(cors());
 
 const jwtCheck = auth({
-  audience: "api.aus.floless.fr",
-  issuerBaseURL: "https://adopte-un-stagiaire.eu.auth0.com/",
+  audience: "api.rouge.aus.floless.fr",
+  issuerBaseURL: "https://rouge-aus.eu.auth0.com/",
   tokenSigningAlg: "RS256",
 });
 
 // enforce that all incoming requests are authenticated
 app.use(jwtCheck);
+// parse body to json
+app.use(json())
 
 app.get("/v1/offres", async function (_, res) {
   try {
     const offres = await getFirstOffres();
     res.send(offres);
+  } catch (error) {
+    res.status(500).send({ error: "Internal Server Error", reason: error });
+  }
+});
+
+app.post("/v1/candidats", async function (req, res) {
+  try {
+    const { email } = req.body
+    // recuperer le candidat depuis ma base de donne qui correspond au mail dans le body
+    const candidat = await getFirstCandidats(email)
+    console.log(candidat)
+    res.send(candidat)
   } catch (error) {
     res.status(500).send({ error: "Internal Server Error", reason: error });
   }

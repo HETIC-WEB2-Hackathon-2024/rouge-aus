@@ -1,19 +1,19 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { Box } from "@mui/material";
 import React from "react";
-import { authenticatedGet } from "../auth/helper";
+import { authenticatedPost } from "../auth/helper";
 
 export function Parametres() {
-  const { getAccessTokenSilently } = useAuth0();
+  const { getAccessTokenSilently , user} = useAuth0();
   const [loading, setLoading] = React.useState(true);
-  const [data, setData] = React.useState<any[] | null>(null);
+  const [data, setData] = React.useState<any | null>(null);
   const [error, setError] = React.useState<string | null>(null);
+
   React.useEffect(() => {
     async function callApi() {
       try {
         const token = await getAccessTokenSilently();
-        const document = await authenticatedGet(token, "/v1/offres");
-        setData(document);
+        const candidat = await authenticatedPost(token, "/v1/candidats", { email: user?.email });
+        setData(candidat)
       } catch (error) {
         setError(`Error from web service: ${error}`);
       } finally {
@@ -22,20 +22,15 @@ export function Parametres() {
     }
     callApi();
   }, []);
+  console.log(data)
+  return loading ? 
+  <p>ca chargeeee jean-jacques</p> : (
+    <>
+    <div>
+        <h1>{data.id}</h1>
+        <p>Email: {data.email}</p>
+      </div>
+  </>
 
-  return loading ? (
-    <Box>chargement...</Box>
-  ) : (
-    <Box>
-      {error ? (
-        `Dashboard: response from API (with auth) ${error}`
-      ) : (
-        <ol>
-          {data?.map((offre: any) => (
-            <li key={offre.id}>{offre.titre_emploi}</li>
-          ))}
-        </ol>
-      )}
-    </Box>
   );
 }
