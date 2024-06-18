@@ -4,6 +4,7 @@ import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
 import { TopMenu } from "./TopMenu";
 import { Dashboard } from "./dashboard/Dashboard";
 import { Parametres } from "./parametres/Parametres";
+import { Offre } from "./offre/Offre.tsx";
 import { AppTheme } from "./Theme";
 
 const router = createBrowserRouter([
@@ -17,7 +18,7 @@ const router = createBrowserRouter([
       },
       {
         path: "offres",
-        element: <Box>Offres</Box>,
+        element: <Offre />,
       },
       {
         path: "parametres",
