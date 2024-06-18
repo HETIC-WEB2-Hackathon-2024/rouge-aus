@@ -1,5 +1,5 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { Box, Button } from "@mui/material";
+import { Box, Button, TextField } from "@mui/material";
 import React from "react";
 import './offre.scss';
 
@@ -9,9 +9,10 @@ export function Offre() {
   const [data, setData] = React.useState<any[] | null>(null);
   const [error, setError] = React.useState<string | null>(null);
   const [favorites, setFavorites] = React.useState<number[]>([]);
+  const [search, setSearch] = React.useState<string>("");
 
   React.useEffect(() => {
-    // Simulation de données
+    // Simuler des données de réponse en attendant que le backend soit prêt
     const mockData = [
       {
         id: 1,
@@ -54,6 +55,7 @@ export function Offre() {
       }
     ];
 
+    // Simuler un délai pour imiter l'appel API
     setTimeout(() => {
       setData(mockData);
       setLoading(false);
@@ -68,6 +70,17 @@ export function Offre() {
     );
   };
 
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearch(event.target.value);
+  };
+
+  const filteredData = data?.filter((offre) =>
+    offre.titre_emploi.toLowerCase().includes(search.toLowerCase()) ||
+    offre.entreprise.toLowerCase().includes(search.toLowerCase()) ||
+    offre.lieu.toLowerCase().includes(search.toLowerCase()) ||
+    offre.contrat.toLowerCase().includes(search.toLowerCase())
+  );
+
   if (loading) {
     return <Box>chargement...</Box>;
   }
@@ -79,8 +92,16 @@ export function Offre() {
     console.log("la requête a abouti");
     return (
       <Box>
+        <TextField
+          label="Rechercher"
+          variant="outlined"
+          fullWidth
+          margin="normal"
+          value={search}
+          onChange={handleSearchChange}
+        />
         <ol>
-          {data?.map((offre: any) => (
+          {filteredData?.map((offre: any) => (
             <li key={offre.id}>
               <h3>{offre.titre_emploi}</h3>
               <p>Entreprise: {offre.entreprise}</p>

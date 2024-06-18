@@ -7,6 +7,7 @@ import { AppTheme } from "./Theme";
 import LandingPage from "./landing-page/LandingPage.tsx";
 import Navbar from "./components/Navbar.tsx";
 import Entreprises from "./entreprises/Entreprises.tsx";
+import { Outlet } from "react-router-dom";
 
 const router = createBrowserRouter([
   {
@@ -48,7 +49,10 @@ const router = createBrowserRouter([
 
 function Layout() {
   return (
+    <>
       <Navbar />
+      <Outlet />
+    </>
     // <AppTheme>
     //   <MainBox>
     //     <CssBaseline />
