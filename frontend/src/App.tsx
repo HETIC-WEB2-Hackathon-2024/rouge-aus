@@ -2,6 +2,8 @@ import { Box} from "@mui/material";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { Dashboard } from "./dashboard/Dashboard";
 import { Parametres } from "./parametres/Parametres";
+import { Offre } from "./offre/Offre.tsx";
+import { AppTheme } from "./Theme";
 import LandingPage from "./landing-page/LandingPage.tsx";
 import Navbar from "./components/Navbar.tsx";
 import Entreprises from "./entreprises/Entreprises.tsx";
@@ -25,7 +27,7 @@ const router = createBrowserRouter([
       },
       {
         path: "offres",
-        element: <Box>Offres</Box>,
+        element: <Offre />,
       },
       {
         path: "parametres",
