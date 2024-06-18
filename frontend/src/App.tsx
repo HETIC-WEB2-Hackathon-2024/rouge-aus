@@ -1,11 +1,12 @@
-import styled from "@emotion/styled";
-import { Box, CssBaseline, Toolbar } from "@mui/material";
-import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
-import { TopMenu } from "./TopMenu";
+import { Box} from "@mui/material";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { Dashboard } from "./dashboard/Dashboard";
 import { Parametres } from "./parametres/Parametres";
 import { Offre } from "./offre/Offre.tsx";
 import { AppTheme } from "./Theme";
+import LandingPage from "./landing-page/LandingPage.tsx";
+import Navbar from "./components/Navbar.tsx";
+import Entreprises from "./entreprises/Entreprises.tsx";
 
 const router = createBrowserRouter([
   {
@@ -13,8 +14,16 @@ const router = createBrowserRouter([
     element: <Layout />,
     children: [
       {
+        path: "landing",
+        element: <LandingPage />
+      },
+      {
         path: "dashboard",
         element: <Dashboard />,
+      },
+      {
+        path: "entreprises",
+        element: <Entreprises />,
       },
       {
         path: "offres",
@@ -31,24 +40,25 @@ const router = createBrowserRouter([
     ],
   },
 ]);
-const MainBox = styled(Box)`
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-`;
+// const MainBox = styled(Box)`
+//   display: flex;
+//   flex-direction: column;
+//   height: 100%;
+// `;
 
 function Layout() {
   return (
-    <AppTheme>
-      <MainBox>
-        <CssBaseline />
-        <TopMenu />
-        <Box component="main">
-          <Toolbar />
-          <Outlet />
-        </Box>
-      </MainBox>
-    </AppTheme>
+      <Navbar />
+    // <AppTheme>
+    //   <MainBox>
+    //     <CssBaseline />
+    //     <TopMenu />
+    //     <Box component="main">
+    //       <Toolbar />
+    //       <Outlet />
+    //     </Box>
+    //   </MainBox>
+    // </AppTheme>
   );
 }
 
