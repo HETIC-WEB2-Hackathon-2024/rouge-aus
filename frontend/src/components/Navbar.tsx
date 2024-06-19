@@ -18,10 +18,6 @@ export default function Navbar() {
             path: '/dashboard'
         },
         {
-            name: 'Entreprises',
-            path: '/entreprises'
-        },
-        {
             name: 'Offres',
             path: '/offres'
         },

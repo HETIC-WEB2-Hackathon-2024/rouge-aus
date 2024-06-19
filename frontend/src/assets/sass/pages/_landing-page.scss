@@ -113,26 +113,38 @@
 
       .hired-card-component:nth-child(1), .hired-card-component:nth-child(3){
         transform: translateY(10%);
-        animation: 10s ease reverse infinite movedown;
+        animation: 15s ease reverse infinite movedown;
       }
 
       .hired-card-component:nth-child(2), .hired-card-component:nth-child(4){
         transform: translateY(-10%);
-        animation: 10s ease reverse infinite moveup;
+        animation: 15s ease reverse infinite moveup;
       }
     }
   }
 }
 
 @keyframes movedown {
-  100%{
+  0%{
+    transform: translateY(10%);
+  }
+  50%{
     transform: translateY(-10%);
   }
+    100%{
+        transform: translateY(10%);
+    }
 }
 
 
 @keyframes moveup {
-  100%{
-    transform: translateY(10%);
+  0%{
+    transform: translateY(-10%);
   }
+    50%{
+        transform: translateY(10%);
+    }
+    100%{
+        transform: translateY(-10%);
+    }
 }
