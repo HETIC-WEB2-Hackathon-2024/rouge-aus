@@ -8,7 +8,7 @@ export function Dashboard() {
   const { getAccessTokenSilently } = useAuth0();
   const [loading, setLoading] = React.useState(true);
   const [data, setData] = React.useState<any[] | null>(null);
-  const [topMetier, setTopMetier] = React.useState<any[] | null>(null);
+  const [, setTopMetier] = React.useState<any[] | null>(null);
   const [error, setError] = React.useState<string | null>(null);
   React.useEffect(() => {
     async function callApi() {
