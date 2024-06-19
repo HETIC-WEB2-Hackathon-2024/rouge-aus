@@ -2,18 +2,23 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { Box } from "@mui/material";
 import React from "react";
 import { authenticatedGet } from "../auth/helper";
+import { DashboardBox } from "../components/DashboardBox";
 
 export function Dashboard() {
   const { getAccessTokenSilently } = useAuth0();
   const [loading, setLoading] = React.useState(true);
   const [data, setData] = React.useState<any[] | null>(null);
+  const [, setTopMetier] = React.useState<any[] | null>(null);
   const [error, setError] = React.useState<string | null>(null);
   React.useEffect(() => {
     async function callApi() {
       try {
         const token = await getAccessTokenSilently();
-        const document = await authenticatedGet(token, "/v1/offres");
+        const document = await authenticatedGet(token, "/v1/offres/dashboard/6");
+        const topOffres = await authenticatedGet(token, "/v1/offres/top-metier");
+        console.log(topOffres)
         setData(document);
+        setTopMetier(topOffres);
         console.log(document)
       } catch (error) {
         setError(`Error from web service: ${error}`);
@@ -31,11 +36,15 @@ export function Dashboard() {
       {error ? (
         `Dashboard: response from API (with auth) ${error}`
       ) : (
-        <ol>
+        <ul className="dashboard_box_container">
           {data?.map((offre: any) => (
-            <li key={offre.id}>{offre.titre_emploi}</li>
+            <DashboardBox offre={offre} key={offre.id} />
+            
           ))}
-        </ol>
+          {/* {
+            topMetier && <RecruteBox offre={topMetier} key={topMetier[0].metiers} />
+          } */}
+        </ul>
       )}
     </Box>
   );
