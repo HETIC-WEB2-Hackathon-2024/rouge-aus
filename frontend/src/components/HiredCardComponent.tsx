@@ -1,6 +1,7 @@
 import React from 'react'
+import {CardDataProps} from "../types.ts";
 
-export default function HiredCardComponent({cardData}){
+export default function HiredCardComponent({cardData}: CardDataProps){
     return (
         <div className='hired-card-component'>
             <div className="icon">
