@@ -27,7 +27,7 @@ async function query(sqlStatement: string): Promise<any[]> {
 }
 
 export function getFirstOffres(count: number = 3): Promise<any[]> {
-  return query(`SELECT * FROM offre LIMIT ${count}`);
+  return query(`SELECT * FROM offre JOIN commune ON offre.commune_id = commune.id JOIN metier ON offre.metier_id = metier.id LIMIT ${count}`);
 }
 
 export function getOffreDashboard(count:number=4): Promise<any[]> {
