@@ -1,5 +1,5 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import React from "react";
+import React, { useState } from "react";
 import { authenticatedPost } from "../auth/helper";
 
 export function Parametres() {
@@ -7,7 +7,8 @@ export function Parametres() {
   const [loading, setLoading] = React.useState(true);
   const [data, setData] = React.useState<any | null>(null);
   const [error, setError] = React.useState<string | null>(null);
-
+  const [modificationMode, setModificationMode] = useState(false)
+  
   React.useEffect(() => {
     async function callApi() {
       try {
@@ -22,20 +23,41 @@ export function Parametres() {
     }
     callApi();
   }, []);
-  console.log(data)
-  return loading ? 
-  <p>ca chargeeee jean-jacques</p> : (
-    <>
-    <div>
-        <h1>{data.id}</h1>
-        <p>Nom: {data.nom}</p>
-        <p>Prénom: {data.prenom}</p>
-        <p>Telephone: {data.telephone}</p>
-        <p>Email: {data.email}</p>
-        <p>Pays: {data.pays}</p>
-        <p>Date de naissance: {data.date_naissance}</p>
-    </div>
-  </>
+  
+  // Champs du formulaire
+  // const [name, setName] = React.useState(data.nom)
+  // const [firstName, setFirstname] = React.useState(data.prenom)
+  // const [phoneNumber, setPhoneNumber] = React.useState(data.telephone)
+  // const [country, setCountry] = React.useState(data.pays)
+  // const [birthDate, setBirthDate] = React.useState(data.date_naissance)
 
+
+  return loading ? (
+    <p>Ça chargeeee Jean-Jacques</p>
+  ) : (
+    !modificationMode ? (
+      <>
+        <div>
+          <p>Nom: {data?.nom}</p>
+          <p>Prénom: {data?.prenom}</p>
+          <p>Téléphone: {data?.telephone}</p>
+          <p>Email: {data?.email}</p>
+          <p>Pays: {data?.pays}</p>
+          <p>Date de naissance: {data?.date_naissance}</p>
+        </div>
+        <div>
+          <button onClick={() => setModificationMode(!modificationMode)}>Modifier</button>
+        </div>
+      </>
+    ) : (
+      <Form/>
+    )
   );
+  
+}
+
+function Form() {
+  return (
+    <p>test</p>
+  )
 }
