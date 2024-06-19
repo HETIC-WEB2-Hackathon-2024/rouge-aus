@@ -32,7 +32,7 @@
       }
 
       li {
-        @include u.font("Poppins", 500, 1.4rem, var(--primary-black));
+        @include u.font("Nunito Sans", 600, 1.4rem, var(--primary-black));
         transition: all 0.2s ease;
         cursor: pointer;
 

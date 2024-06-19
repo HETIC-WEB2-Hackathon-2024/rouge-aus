@@ -1,0 +1,86 @@
+.box_offre{
+    display: flex;
+    flex-direction: column;
+    gap: 1.6rem;
+    padding:  2.4rem;
+    background-color: var(--primary-white);
+    font-family: 'nunito sans';
+ 
+    border: 1px solid var(--primary-grey);
+    border-radius: 1.6rem;
+
+    .titre_offre {
+        font-size: 1.6rem;
+        font-weight: 800;
+        color: var(--primary-black);
+    }
+    .description_offre {
+        font-size: 1.3rem;
+        font-weight: 600;
+        color: var(--secondary-black);
+    }
+    .tags_offre {
+        display: flex;
+        gap: 0.2rem;
+        flex-wrap: wrap;
+        font-size: 1.2rem;
+        font-weight: 600;
+
+        .metier_offre{
+            background-color: var(--light-blue);
+            color: var(--blue);
+            padding: 0.4rem 0.8rem;
+            border-radius: 0.5rem;
+        }
+        .commune_offre{
+            background-color: var(--light-green);
+            color: var(--green);
+            padding: 0.4rem 0.8rem;
+            border-radius: 0.5rem;
+        }
+        .contrat_offre{
+            background-color: var(--light-orange);
+            color: var(--orange);
+            padding: 0.4rem 0.8rem;
+            border-radius: 0.5rem;
+        }
+    }
+    .button_group_offre {
+        display: flex;
+        gap: 1.6rem;
+        justify-content: space-between;
+        font-size: larger;
+
+        .button_offre {
+            padding: 1rem 1.6rem;
+            border-radius: 0.8rem;
+            font-size: 1.4rem;
+            font-weight: 400;
+            width: 100%;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+
+            &.postuler {
+                background-color: var(--green);
+                color: var(--primary-white);
+                box-shadow: 0 0 0 5px var(--light-green);
+
+                &:hover {
+                    background-color: var(--primary-white);
+                    color: var(--green);
+                    box-shadow: 0 0 0 2px var(--green);
+                }
+            }
+            &.voir {
+                color: var(--primary-black);
+            }
+
+            &:hover {
+                transform: translateY(-0.2rem);
+                opacity: 0.4;
+            }
+        }
+    }
+
+}
