@@ -2,8 +2,9 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { Box } from "@mui/material";
 import React from "react";
 import { authenticatedGet } from "../auth/helper";
-import { DashboardBox } from "../components/DashboardBox";
-import RecruteBox from "../components/RecruteBox";
+import { DashboardBox } from "../components/cards/DashboardBox";
+import RecruteBox from "../components/cards/RecruteBox";
+import CompleteBox from "../components/cards/profilCompleteBox";
 
 export function Dashboard() {
   const { getAccessTokenSilently } = useAuth0();
@@ -46,7 +47,12 @@ export function Dashboard() {
         </ul>
       )}
       {
-        topMetier && <RecruteBox offre={topMetier} key={topMetier[0].metiers} />
+        topMetier && <div
+          className="dasboard_section2"
+        >
+        <CompleteBox/>
+        <RecruteBox offre={topMetier} key={topMetier[0].metiers} />
+        </div>
       }
     </Box>
   );

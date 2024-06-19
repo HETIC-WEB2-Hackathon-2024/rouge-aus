@@ -3,7 +3,7 @@ import { Box, TextField } from "@mui/material";
 import React from "react";
 import { authenticatedGet } from "../auth/helper";
 import "./offre.scss";
-import { DashboardBox } from "../components/DashboardBox";
+import { DashboardBox } from "../components/cards/DashboardBox";
 
 export function Offre() {
   const { getAccessTokenSilently } = useAuth0();

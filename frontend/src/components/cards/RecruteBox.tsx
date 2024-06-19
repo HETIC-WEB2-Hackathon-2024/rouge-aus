@@ -3,7 +3,7 @@
 export default function RecruteBox({offre,key}: {offre: any, key: any}) {
     return (
         <div className="recrute_box" key={key}>
-            <h2 className="titre_recrute">Les secteurs qui recrutent</h2>
+            <h2 className="titre_recrute top">Les secteurs qui recrutent</h2>
             {offre.map((offre: any) => (
                 <div key={offre.id} className="box_recrute">
                     <div className="titre_recrute_container">
