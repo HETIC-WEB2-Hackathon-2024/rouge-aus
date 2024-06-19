@@ -33,7 +33,7 @@ export function Dashboard() {
   return loading ? (
     <Box>chargement...</Box>
   ) : (
-    <Box>
+    <Box className="dashboard_container">
       {error ? (
         `Dashboard: response from API (with auth) ${error}`
       ) : (
@@ -42,11 +42,12 @@ export function Dashboard() {
             <DashboardBox offre={offre} key={offre.id} />
             
           ))}
-          {/* {
-            topMetier && <RecruteBox offre={topMetier} key={topMetier[0].metiers} />
-          } */}
+       
         </ul>
       )}
+      {
+        topMetier && <RecruteBox offre={topMetier} key={topMetier[0].metiers} />
+      }
     </Box>
   );
 }
