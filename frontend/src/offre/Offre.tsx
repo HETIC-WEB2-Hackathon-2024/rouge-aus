@@ -29,14 +29,6 @@ export function Offre() {
     callApi();
   }, [getAccessTokenSilently]);
 
-  const handleFavoriteToggle = (id: number) => {
-    setFavorites((prevFavorites) =>
-      prevFavorites.includes(id)
-        ? prevFavorites.filter((favoriteId) => favoriteId !== id)
-        : [...prevFavorites, id]
-    );
-  };
-
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(event.target.value);
   };
