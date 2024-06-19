@@ -30,7 +30,7 @@ const router = createBrowserRouter([
         element: <Offre />,
       },
       {
-        path: "parametres",
+        path: "profile",
         element: <Parametres />,
       },
       {
@@ -48,11 +48,10 @@ const router = createBrowserRouter([
 
 function Layout() {
   return (
-    <>
-      <Navbar />
-      <Outlet />
-    </>
-
+      <>
+        <Navbar/>
+        <Outlet/>
+      </>
     // <AppTheme>
     //   <MainBox>
     //     <CssBaseline />

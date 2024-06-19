@@ -61,3 +61,8 @@ export async function getTopMetier(): Promise<any[]> {
     throw error;  
   }
 }
+
+export function getFirstCandidats(email: string): Promise<any[]> {
+  return query(`SELECT * FROM candidat WHERE candidat.email = '${email}' LIMIT 1`)
+  .then(results => results[0]);
+}

@@ -6,18 +6,18 @@ import { Authenticated } from "./auth/Authenticated.tsx";
 import '../src/assets/sass/main.scss'
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <Auth0Provider
-      domain="adopte-un-stagiaire.eu.auth0.com"
-      clientId="R5nkYZygAqAtORqxqqpUPf03vuBAO7Xt"
+      domain="rouge-aus.eu.auth0.com"
+      clientId="ky2NZpStWuhMYVy9WZBeBb5QQXEndo8P"
       authorizationParams={{
-        audience: "api.aus.floless.fr",
+        audience: "api.rouge.aus.floless.fr",
         redirect_uri: window.location.origin,
       }}
-    >
+    > 
       <Authenticated>
         <App />
       </Authenticated>
     </Auth0Provider>
-  </React.StrictMode>
+  // </React.StrictMode>
 );
