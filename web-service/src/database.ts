@@ -40,7 +40,7 @@ export function getOffreDashboard(count:number=4): Promise<any[]> {
 export async function getTopMetier(): Promise<any[]> {
   try {
     const topSecteurs = await query(`SELECT secteur_id, COUNT(secteur_id) FROM metier GROUP BY secteur_id ORDER BY COUNT(secteur_id) DESC LIMIT 3`);
-    const topMetier: any = {};
+    const topMetier: any = []
 
     for (const secteur of topSecteurs) {
       const metiers = await query(`SELECT metier.metier
@@ -48,11 +48,11 @@ export async function getTopMetier(): Promise<any[]> {
       JOIN secteur ON metier.secteur_id = secteur.id 
       WHERE secteur.id = ${secteur.secteur_id} ORDER BY metier.id DESC LIMIT 3
       `);
-      topMetier[secteur.secteur_id] = {
-        secteur: metiers[0].secteur,
-        nombreOffres: secteur.nombre_offres,
-        metiers: metiers
-      };
+      const secteurNameRequest = await query(`SELECT secteur FROM secteur WHERE id = ${secteur.secteur_id}`);
+      const secteurName = secteurNameRequest[0].secteur;
+
+
+      topMetier.push({secteur: secteurName, nombre_offres: secteur.count, metiers: metiers});  
     }
 
     return topMetier;  
