@@ -1,7 +1,7 @@
 import express from "express";
 import { auth } from "express-oauth2-jwt-bearer";
 import cors from "cors";
-import { getFirstOffres } from "./database";
+import { getFirstOffres, getOffreDashboard, getTopMetier } from "./database";
 
 const port = 3000;
 const app = express();
@@ -27,7 +27,26 @@ app.get("/v1/offres", async function (_, res) {
     res.status(500).send({ error: "Internal Server Error", reason: error });
   }
 });
-
+app.get("/v1/offres/dashboard/:count", async function (req, res) {
+  try {
+    console.log("getOffreDashboard called");
+    const count = parseInt(req.params.count);
+    const offres = await getOffreDashboard(count);
+    console.log("offres returned");
+    res.status(200).send(offres);
+  } catch (error) {
+    res.status(500).send({ error: "Internal Server Error", reason: error });
+  }
+});
+app.get("/v1/offres/top-metier", async function (_, res) {
+  try {
+    const offres = await getTopMetier();
+    console.log("top metier returned" + JSON.stringify(offres));
+    res.status(200).send(offres);
+  } catch (error) {
+    res.status(500).send({ error: "Internal Server Error", reason: error });
+  }
+});
 app.listen(port, () => {
   console.log(`Server started on http://localhost:${port}`);
 });
