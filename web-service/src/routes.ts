@@ -47,7 +47,7 @@ router.post("/v1/updateProfile", async function (req, res) {
         console.log("NAME", name, "PRENOM", firstname);
 
         try {
-            const profile = await updateProfile(email, name, firstname, phoneNumber, country);
+            const profile = await updateProfile({nom : name, prenom : firstname, telephone: phoneNumber, pays :country, email});
             console.log("PROFIL ICI : ", profile);
             res.status(200).send(profile);
         } catch (error) {
@@ -60,23 +60,5 @@ router.post("/v1/updateProfile", async function (req, res) {
     }
 });
 
-router.post("/v1/updateProfile", async function (req, res) {
-    try {
-        const { email, name, firstname, phoneNumber, country } = req.body;
-        console.log("NAME", name, "PRENOM", firstname);
-
-        try {
-            const profile = await updateProfile(email, name, firstname, phoneNumber, country);
-            console.log("PROFIL ICI : ", profile);
-            res.status(200).send(profile);
-        } catch (error) {
-            console.log("ERREUR LORS DE LA MISE À JOUR", error);
-            res.status(500).send({ error: "Erreur lors de la mise à jour du profil" });
-        }
-    } catch (error) {
-        console.log("ERREUR PROFIL", error);
-        res.status(400).send({ error: "Données de requête invalides" });
-    }
-});
 
 module.exports = router

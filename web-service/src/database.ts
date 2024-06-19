@@ -20,7 +20,7 @@ process.on("exit", function () {
 async function query(sqlStatement: string, values?: (string | Date)[]): Promise<any[]> {
   let rows = [];
   const client = await pool.connect();
-  const response = await client.query(sqlStatement);
+  const response = await client.query(sqlStatement, values);
   rows = response.rows;
   client.release();
   return rows;
@@ -41,12 +41,17 @@ export function getFirstCandidats(email: string): Promise<any[]> {
 //     WHERE email = '${email}';`)
 // }
 
-export function updateProfile(email: string, nom: string, prenom: string, telephone: string, pays: string): Promise<any[]> {
-  const sql = `
-    UPDATE candidat 
-    SET nom = $1, prenom = $2, telephone = $3, pays = $4
-    WHERE email = $5;
-  `;
+type updateProfileProps = {nom: string, prenom: string, telephone: string, pays: string, email: string}
+export function updateProfile({nom, prenom, telephone, pays, email} : updateProfileProps): Promise<any[]> {
+  // const sql = `
+  //   UPDATE candidat 
+  //   SET nom = $1::text, prenom = $2::text, telephone = $3::text, pays = $4::text
+  //   WHERE candidat.email = $5
+  // `;
+  const sql = `UPDATE candidat 
+  SET nom = $1, prenom = $2, telephone = $3, pays = $4
+  WHERE email = $5;`
+
   const values = [nom, prenom, telephone, pays, email];
   return query(sql, values);
 }
