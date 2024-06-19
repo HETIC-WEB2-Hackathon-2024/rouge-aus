@@ -1,4 +1,9 @@
-export default function TagComponent({active, text}){
+interface Props {
+    active: boolean,
+    text: string,
+}
+
+export default function TagComponent({active, text}: Props){
 
     const handleTagClassName = () :string => {
         return active ? 'tag-container' : 'tag-container active'

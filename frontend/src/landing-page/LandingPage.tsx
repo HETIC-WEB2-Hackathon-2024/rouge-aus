@@ -2,15 +2,16 @@ import ButtonComponent from "../components/ButtonComponent.tsx";
 import TagComponent from "../components/TagComponent.tsx";
 import HiredCardComponent from "../components/HiredCardComponent.tsx";
 import { User, Search, FileText, Briefcase  } from 'lucide-react'
+import {HiredTipProps, jobsArray} from "../types.ts";
 
 export default function LandingPage() {
 
-    const title = 'Cherchez. Postulez. Trouvez'
-    const getHiredTitle = 'Trouver Son Stage En '
-    const getHiredSpan = '4 Etapes'
-    const getHiredParagraph = "Quelques conseils pour postuler et être embauchés par l'entreprise de vos rêves"
-    const paragraph = "AUS, la plateforme complète pour trouver des stages dans tous les secteurs de métier. Que vous soyez étudiant ou en reconversion professionnelle, nous vous accompagnons dans la recherche de votre prochain emploi."
-    const jobs = [
+    const title: string = 'Cherchez. Postulez. Trouvez'
+    const getHiredTitle: string = 'Trouver Son Stage En '
+    const getHiredSpan: string = '4 Etapes'
+    const getHiredParagraph: string = "Quelques conseils pour postuler et être embauchés par l'entreprise de vos rêves"
+    const paragraph: string = "AUS, la plateforme complète pour trouver des stages dans tous les secteurs de métier. Que vous soyez étudiant ou en reconversion professionnelle, nous vous accompagnons dans la recherche de votre prochain emploi."
+    const jobs: jobsArray = [
         [
             "Médecin",
             "Enseignant",
@@ -82,7 +83,7 @@ export default function LandingPage() {
         ]
     ];
 
-    const hiredTips = [
+    const hiredTips: HiredTipProps = [
         {
             icon: User,
             color: '#1CC443',
@@ -121,7 +122,7 @@ export default function LandingPage() {
     }
 
 
-    const buttonText = "Parcourir les offres"
+    const buttonText: string = "Parcourir les offres"
     return (
         <div className="landing-page-section">
             <div className="main-section">
