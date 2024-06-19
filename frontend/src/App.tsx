@@ -6,7 +6,7 @@ import { Offre } from "./offre/Offre.tsx";
 import LandingPage from "./landing-page/LandingPage.tsx";
 import Navbar from "./components/Navbar.tsx";
 import Entreprises from "./entreprises/Entreprises.tsx";
-import { Outlet } from "react-router-dom";
+import {Outlet} from "react-router-dom";
 
 const router = createBrowserRouter([
   {
