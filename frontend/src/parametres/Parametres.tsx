@@ -28,8 +28,13 @@ export function Parametres() {
     <>
     <div>
         <h1>{data.id}</h1>
+        <p>Nom: {data.nom}</p>
+        <p>Prénom: {data.prenom}</p>
+        <p>Telephone: {data.telephone}</p>
         <p>Email: {data.email}</p>
-      </div>
+        <p>Pays: {data.pays}</p>
+        <p>Date de naissance: {data.date_naissance}</p>
+    </div>
   </>
 
   );

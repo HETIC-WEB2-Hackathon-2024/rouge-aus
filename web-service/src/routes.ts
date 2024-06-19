@@ -23,4 +23,13 @@ try {
 }
 });
 
+router.post("/v1/updateProfile", async function (req, res) {
+    try {
+        const { name, firstname, email, phoneNumber, country, birthDate } = req.body
+        
+    } catch (error) {
+        res.send({error : error})
+    }
+})
+
 module.exports = router

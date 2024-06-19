@@ -2,11 +2,14 @@ import {useLocation, useNavigate} from "react-router";
 import {User, LogOut, Settings, CircleUser} from "lucide-react"
 import React, {useEffect, useRef, useState} from "react";
 
+import { useAuth0 } from "@auth0/auth0-react";
+
 export default function Navbar() {
     const [profileState, setProfileState] = useState(false)
     const navigation = useNavigate()
     const location = useLocation();
     const dropdown = useRef<HTMLDivElement>(null)
+    const { logout } = useAuth0();
 
     const navbarList = [
         {
@@ -83,7 +86,10 @@ export default function Navbar() {
                 <div className="icon-container" onClick={handleProfileState}>
                     <User/>
                 </div>
-                <div className="icon-container">
+                <div className="icon-container" title="Déconnexion"
+                    onClick={() =>
+                        logout({ logoutParams: { returnTo: window.location.origin } 
+                    })}>
                     <LogOut/>
                 </div>
                 <div className='dropdown-infos' ref={dropdown}>
