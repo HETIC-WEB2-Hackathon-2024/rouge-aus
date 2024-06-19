@@ -1,5 +1,5 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { Box, Button, TextField } from "@mui/material";
+import { Box, TextField } from "@mui/material";
 import React from "react";
 import { authenticatedGet } from "../auth/helper";
 import "./offre.scss";
@@ -10,7 +10,6 @@ export function Offre() {
   const [loading, setLoading] = React.useState(true);
   const [data, setData] = React.useState<any[] | null>(null);
   const [error, setError] = React.useState<string | null>(null);
-  const [favorites, setFavorites] = React.useState<number[]>([]);
   const [search, setSearch] = React.useState<string>("");
 
   React.useEffect(() => {

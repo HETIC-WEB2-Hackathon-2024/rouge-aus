@@ -3,7 +3,6 @@ import { Box } from "@mui/material";
 import React from "react";
 import { authenticatedGet } from "../auth/helper";
 import { DashboardBox } from "../components/DashboardBox";
-import RecruteBox from "../components/RecruteBox";
 
 export function Dashboard() {
   const { getAccessTokenSilently } = useAuth0();
