@@ -1,6 +1,7 @@
 import {useLocation, useNavigate} from "react-router";
 import {User, LogOut, Settings, CircleUser} from "lucide-react"
 import React, {useEffect, useRef, useState} from "react";
+import ButtonComponent from "./ButtonComponent.tsx";
 
 export default function Navbar() {
     const [profileState, setProfileState] = useState(false)
@@ -40,7 +41,7 @@ export default function Navbar() {
     ]
 
     useEffect(() => {
-        if(profileState){
+        if (profileState) {
             if (dropdown.current) {
                 dropdown.current.classList.add("dropdown-infos-active");
                 setTimeout(() => {
@@ -80,28 +81,36 @@ export default function Navbar() {
                 </ul>
             </div>
             <div className="action">
-                <div className="icon-container" onClick={handleProfileState}>
-                    <User/>
-                </div>
-                <div className="icon-container">
-                    <LogOut/>
-                </div>
-                <div className='dropdown-infos' ref={dropdown}>
-                    <ul>
-                        {profilList.map((item, index) => (
-                            <li key={index} onClick={() => navigation(item.path)}>
-                                <div className="key">
-                                    {React.createElement(item.icon)}
-                                </div>
-                                <div className="value">
-                                    <p>
-                                        {item.name}
-                                    </p>
-                                </div>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
+                {location.pathname !== '/landing' &&
+                    <>
+                        <div className="icon-container" onClick={handleProfileState}>
+                            <User/>
+                        </div>
+                        <div className="icon-container">
+                            <LogOut/>
+                        </div>
+                        <div className='dropdown-infos' ref={dropdown}>
+                            <ul>
+                                {profilList.map((item, index) => (
+                                    <li key={index} onClick={() => navigation(item.path)}>
+                                        <div className="key">
+                                            {React.createElement(item.icon)}
+                                        </div>
+                                        <div className="value">
+                                            <p>
+                                                {item.name}
+                                            </p>
+                                        </div>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    </>
+                }
+                {location.pathname === '/landing' &&
+                <ButtonComponent text="Connexion" className=""/>
+                }
+
 
             </div>
         </div>
