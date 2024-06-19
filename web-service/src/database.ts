@@ -17,7 +17,7 @@ process.on("exit", function () {
  * @param sqlStatement a string containing the SQL statement
  * @returns an array of rows
  */
-async function query(sqlStatement: string): Promise<any[]> {
+async function query(sqlStatement: string, values?: (string | Date)[]): Promise<any[]> {
   let rows = [];
   const client = await pool.connect();
   const response = await client.query(sqlStatement);
@@ -33,4 +33,20 @@ export function getFirstOffres(count: number = 3): Promise<any[]> {
 export function getFirstCandidats(email: string): Promise<any[]> {
   return query(`SELECT * FROM candidat WHERE candidat.email = '${email}' LIMIT 1`)
   .then(results => results[0]);
+}
+
+// export function updateProfile(email: string, nom: string, prenom: string, telephone: string, pays: string,): Promise<any[]> {
+//   return query(`UPDATE candidat 
+//     SET nom = '${nom}', prenom = '${prenom}', telephone = '${telephone}', pays = '${pays}'
+//     WHERE email = '${email}';`)
+// }
+
+export function updateProfile(email: string, nom: string, prenom: string, telephone: string, pays: string): Promise<any[]> {
+  const sql = `
+    UPDATE candidat 
+    SET nom = $1, prenom = $2, telephone = $3, pays = $4
+    WHERE email = $5;
+  `;
+  const values = [nom, prenom, telephone, pays, email];
+  return query(sql, values);
 }
