@@ -35,7 +35,6 @@ export function getFirstOffres(actualPage:number=1, count:number=10): Promise<an
 }
 
 export function getOffreDashboard(count:number=4): Promise<any[]> {
-  //delectionner tout les offre joindre avec le nom de la comunne le metier a partir de leur id dans la table offre
 
   return query(`SELECT * FROM offre JOIN commune ON offre.commune_id = commune.id JOIN metier ON offre.metier_id = metier.id LIMIT ${count}`);
 }

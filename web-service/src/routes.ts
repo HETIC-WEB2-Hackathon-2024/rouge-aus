@@ -42,12 +42,14 @@ router.get("/v1/offres/:page/:count", async function (req, res) {
         res.status(500).send({ error: "Internal Server Error", reason: error });
     }
 });
-router.get("/v1/offres/dashboard/:count", async function (req, res) {
+router.get("/offres/dashboard/:count", async function (req, res) {
     try {
+        console.log("getOffreDashboard")
         const count = parseInt(req.params.count);
         const offres = await getOffreDashboard(count);
         res.status(200).send(offres);
     } catch (error) {
+        console.error(error);
         res.status(500).send({ error: "Internal Server Error", reason: error });
     }
 });
@@ -60,16 +62,16 @@ router.get("/v1/offres/top-metier", async function (_, res) {
     }
 });
 
-router.get("/v1/offres/search/:string" , async function (req, res){
+router.get("/offres/search/:string" , async function (req, res){
     try{
         console.log(req.params.string)
-        // const string = req.params.string
-        // const offres = await searchOffres(string);
-        // if(offres.length === 0){
-        //     res.status(404).send({error:"Not found"})
-        //     return
-        // }
-        res.status(200).send("offres")
+        const string = req.params.string
+        const offres = await searchOffres(string);
+        if(offres.length === 0){
+            res.status(404).send({error:"Not found"})
+            return
+        }
+        res.status(200).send(offres)
     }
     catch(error){
         res.status(500).send({error:"error", reason:error})

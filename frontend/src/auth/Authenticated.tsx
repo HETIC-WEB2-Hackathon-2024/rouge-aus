@@ -4,6 +4,8 @@ import {setToken, setUserInfos} from "../context/AuthContext.tsx";
 import {authenticatedPost} from "./helper.ts";
 import {useAuth} from "../context/AuthContext.tsx";
 import {useLocation} from "react-router";
+import Cookies from "js-cookie";
+import {useNavigate} from "react-router";
 /**
  * Makes sure user is authenticated before rendering children.
  *
@@ -12,37 +14,29 @@ import {useLocation} from "react-router";
  *
  */
 
-const SetupContext = async ({user,getAccessTokenSilently, dispatch})=> {
-  //  const {getAccessTokenSilently, user} = useAuth0();
-    // const {dispatch} = useAuth();
-    const token = await getAccessTokenSilently();
-    console.log('token', token, user?.email)
-    dispatch(setToken(token));
-    const userInfos = await authenticatedPost(token, "/v1/candidats", {email: user?.email});
-    dispatch(setUserInfos(userInfos));
-}
-
-
 export function Authenticated({children}: React.PropsWithChildren) {
     const {loginWithRedirect, user, isLoading, error, getAccessTokenSilently} = useAuth0();
     const { state, dispatch } = useAuth();
     const [isSetup, setIsSetup] = React.useState(false);
+    const [isOnLandingPage, setIsOnLandingPage] = React.useState(false);
     const location = useLocation();
-
+    const navigate = useNavigate();
     React.useEffect(() => {
-            if (error) {
-                return;
-            } else if((!user && !isLoading)){
+        setTimeout(() => {
+            if(user && state.user?.email){
+
+                navigate('/layout')
+            }else{
                 loginWithRedirect(
                     {
                         authorizationParams: {
                             redirect_uri: `http://localhost:5173/layout`
                         }
                     }
-                );}
-    }, [user, isLoading, loginWithRedirect, error]);
+                );
+            }
+        }, 19000)
+    },);
 
-
-    if (error) return <div>Oops... {error.message}</div>;
-    return isLoading ? <div>Loading...</div> : <>{children}</>
+    return isOnLandingPage ? <>{children}</> : null
 }
