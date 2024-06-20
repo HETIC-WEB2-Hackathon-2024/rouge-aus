@@ -24,30 +24,31 @@ export function Parametres() {
       }
     }
     callApi();
-  },[getAccessTokenSilently, user?.email] );
+  }, [getAccessTokenSilently, user?.email]);
 
   return loading ? (
     <p>Un instant</p>
   ) : (
     !modificationMode ? (
       <>
-      <div className="profile-container">
-        <div className="profile-details">
-          <p className="profile-item-email"><span className="profile-data">{data?.email}</span></p>
-          <p className="profile-item"><span className="profile-data">{data?.nom}</span></p>
-          <p className="profile-item"><span className="profile-data">{data?.prenom}</span></p>
-          <p className="profile-item"><span className="profile-data">{data?.telephone}</span></p>
-          <p className="profile-item"><span className="profile-data">{data?.pays}</span></p>
-          <p className="profile-item">Secteur d'activité <span className="profile-data">{data?.secteur_activite}</span></p>
-          <p className="profile-item">LinkedIn  <span className="profile-data">{data?.linkedin}</span></p>
-          <p className="profile-item">Site web externe <span className="profile-data">{data?.site_web}</span></p>
-          <p className="profile-item">Biographie <span className="profile-data">{data?.biographie}</span></p>
+        <div className="profile-container">
+          <div className="profile-details">
+            <p className="profile-item">Nom: {data?.nom}</p>
+            <p className="profile-item">Prénom: {data?.prenom}</p>
+            <p className="profile-item">Téléphone: {data?.telephone}</p>
+            <p className="profile-item">Email: {data?.email}</p>
+            <p className="profile-item">Pays: {data?.pays}</p>
+            <p className="profile-item">Date de naissance: {data?.date_naissance}</p>
+            <p className="profile-item">Secteur d'activité: {data?.secteur_activite}</p>
+            <p className="profile-item">Biographie: {data?.biographie}</p>
+            <p className="profile-item">LinkedIn: {data?.linkedin}</p>
+            <p className="profile-item">Site web externe: {data?.site_web}</p>
+          </div>
+          <div className="button-container">
+            <button className="edit-button" onClick={() => setModificationMode(true)}>Modifier</button>
+          </div>
         </div>
-        <div className="button-container">
-          <button className="edit-button" onClick={() => setModificationMode(true)}>Modifier</button>
-        </div>
-      </div>
-    </>
+      </>
     ) : (
       <Form setModificationMode={setModificationMode} data={data} />
     )
@@ -56,7 +57,6 @@ export function Parametres() {
 
 function Form({ setModificationMode, data }: { setModificationMode: (value: boolean) => void, data: any }) {
   const { getAccessTokenSilently } = useAuth0();
-  // const { state, dispatch } = useAppContext()
   
   const sendProfileData = async (profileData: object) => {
     try {
@@ -99,7 +99,7 @@ function Form({ setModificationMode, data }: { setModificationMode: (value: bool
   };
 
   return (
-    <div className="form-container">
+<div className="form-container">
   <form onSubmit={submitForm} className="form">
     <div className="form-group">
       <label htmlFor="name" className="form-label">Nom</label>
