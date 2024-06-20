@@ -10,6 +10,7 @@ import {Authenticated} from "./auth/Authenticated.tsx";
 import {useReducer} from "react";
 import {AppContext, initialState, reducer} from "./context/AppContext.ts";
 
+
 export function App() {
     const [state, dispatch] = useReducer(reducer, initialState);
     return (
