@@ -35,18 +35,26 @@ export function Dashboard() {
     callApi();
   }, []);
 
-  return loading ? (
+  return loading && !user? (
     <Box>chargement...</Box>
   ) : (
+    <>
+      <div className="titre_dashboard">
+        <h1>Hello {user?.name}</h1>
+        <h2>Bienvenue dans votre espace stagiaire</h2>
+      </div>
+    
     <Box className="dashboard_container" onClick={() => console.log('state', state.user)}>
+      
       {error ? (
         `Dashboard: response from API (with auth) ${error}`
       ) : (
         <ul className="dashboard_box_container">
-          {data?.map((offre: any) => (
-            <DashboardBox offre={offre} key={offre.id} />
-            
-          ))}
+          {
+            data && data.length>0 && data.map((offre, index) => (
+              <DashboardBox offre={offre} key={index} />
+            ))
+          }
        
         </ul>
       )}
@@ -59,5 +67,6 @@ export function Dashboard() {
         </div>
       }
     </Box>
+    </>
   );
 }

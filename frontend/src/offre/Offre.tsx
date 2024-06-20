@@ -4,19 +4,28 @@ import React from "react";
 import { authenticatedGet } from "../auth/helper";
 import "./offre.scss";
 import { DashboardBox } from "../components/cards/DashboardBox";
+import Alert from '@mui/material/Alert';
+import SimpleBackdrop from "../components/loader/Backdrop";
+import { PaginationComponent } from "../components/pagination/Pagination";
+
 
 export function Offre() {
   const { getAccessTokenSilently } = useAuth0();
   const [loading, setLoading] = React.useState(true);
-  const [data, setData] = React.useState<any[] | null>(null);
+  const [data, setData] = React.useState<any[]>([]);
+  const [searchData, setSearchData] = React.useState<any[]>([]);
   const [error, setError] = React.useState<string | null>(null);
   const [search, setSearch] = React.useState<string>("");
-
+  const [Noresult, setNoResult] = React.useState<boolean>(false);
+  const [actualPage, setActualPage] = React.useState<number>(1);
+  const [isFocus, setIsFocus] = React.useState<boolean>(false);
   React.useEffect(() => {
     async function callApi() {
       try {
+        setLoading(true);
+        window.scrollTo(0, 0);
         const token = await getAccessTokenSilently();
-        const document = await authenticatedGet(token, "/v1/offres");
+        const document = await authenticatedGet(token, `/v1/offres/${actualPage}/16`);
         setData(document);
         console.log(document);
       } catch (error) {
@@ -26,45 +35,71 @@ export function Offre() {
       }
     }
     callApi();
-  }, [getAccessTokenSilently]);
+  }, [getAccessTokenSilently, actualPage]);
 
-  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearch(event.target.value);
+  const handleSearchChange = async (event: React.ChangeEvent<HTMLInputElement>) => {  
+        setSearch(event.target.value);
   };
 
-  const filteredData = data?.filter(
-    (offre) =>
-      offre.titre_emploi.toLowerCase().includes(search.toLowerCase()) ||
-      offre.entreprise.toLowerCase().includes(search.toLowerCase()) ||
-      offre.lieu.toLowerCase().includes(search.toLowerCase()) ||
-      offre.contrat.toLowerCase().includes(search.toLowerCase())
-  );
+  const searchOffres = async (search: string) => {
+   try {
+    if(search === "") return;
+    setNoResult(false)
+    setLoading(true);
+    const token = await getAccessTokenSilently();
+    const document = await authenticatedGet(token, `/v1/offres/search/${search}`)
+    if(document.error){
+      setSearchData([
+       "Aucun résultat trouvé"
+      ])
+      setNoResult(true)
+      setLoading(false)
+      return;
+    }
+    setSearchData(document);
+    console.log(document)
 
-  if (loading) {
-    return <Box>Chargement...</Box>;
+  }
+  catch(error){
+    console.error(error);
+  }
+  finally{
+    setLoading(false);
+  }
   }
 
-  if (error) {
-    console.log("erreur lors de la requête");
-    return <Box>{error}</Box>;
-  } else {
+  const ChangePage = (event: React.ChangeEvent<unknown>, value: number) => {
+    event.preventDefault();
+    setActualPage(value);
+  }
+
+
     console.log("la requête a abouti");
     return (
       <Box>
-        <div className="search_container">
-          <TextField
-            label="Rechercher"
-            value={search}
-            onChange={handleSearchChange}
-            className="search_input"
-          />
+        <div className={`search_container ${isFocus ? "focus" : ""}`}>
+         <input value={search} onChange={handleSearchChange} placeholder="Cherche ton Stage" onFocus={() => setIsFocus(true)} onBlur={() => setIsFocus(false)} />
+          <button onClick={() => searchOffres(search)}>Rechercher</button>
         </div>
-        <ul className="dashboard_box_container">
-          {filteredData?.map((offre: any) => (
-            <DashboardBox offre={offre} key={offre.id} />
-          ))}
+       { !loading ? <ul className="dashboard_box_container large">
+        {
+          Noresult? <div>{searchData[0]}</div> : searchData.length > 0 ? searchData.map((offre, index) => {
+            return <DashboardBox key={index} offre={offre} />
+          }) : data.map((offre, index) => {
+            return <DashboardBox key={index} offre={offre} />
+          })
+
+        }
+          
         </ul>
+        : error ? <Alert severity="error">{error}</Alert> : <SimpleBackdrop />
+
+        }
+        <div className="pagination_container">
+        <PaginationComponent actualPage={actualPage} ChangePage={ChangePage} />
+        </div>
+       
       </Box>
     );
-  }
+  
 }

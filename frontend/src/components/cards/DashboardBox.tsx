@@ -1,5 +1,5 @@
 
-export function DashboardBox({offre,key}: {offre: any, key: any}) {
+export function DashboardBox({offre,key}: {offre: any, key: number}) {
     const description_courting = (text: string) => {
         if (text.length > 100) {
             return text.slice(0, 100) + "...";
