@@ -36,13 +36,13 @@
 
     .title{
       h1{
-        @include u.font("Poppins", 700, 1.8rem, var(--primary-black))
+        @include u.font("Nunito Sans", 700, 1.8rem, var(--primary-black))
       }
     }
 
     .paragraph{
       p{
-        @include u.font("Poppins", 400, 1.2rem, var(--secondary-black))
+        @include u.font("Nunito Sans", 400, 1.2rem, var(--secondary-black))
       }
     }
   }

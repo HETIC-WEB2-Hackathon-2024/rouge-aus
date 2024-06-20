@@ -39,7 +39,7 @@
         max-width: 70%;
         text-align: center;
         h1{
-          @include u.font("Poppins", 800, 4.4rem, var(--primary-black));
+          @include u.font("Nunito Sans", 800, 4.4rem, var(--primary-black));
         }
         span{
           color: var(--primary-green);
@@ -50,7 +50,7 @@
         max-width: 60%;
         text-align: center;
         p{
-          @include u.font("Poppins", 500, 1.2rem, var(--secondary-black));
+          @include u.font("Nunito Sans", 500, 1.2rem, var(--secondary-black));
         }
       }
     }
@@ -91,7 +91,7 @@
 
       .title{
         h1{
-          @include u.font("Poppins", 700, 2.8rem, var(--primary-black))
+          @include u.font("Nunito Sans", 700, 2.8rem, var(--primary-black))
         }
 
         span{
@@ -101,7 +101,7 @@
 
       .paragraph{
         p{
-          @include u.font("Poppins", 500, 1.2rem, var(--secondary-black));
+          @include u.font("Nunito Sans", 500, 1.2rem, var(--secondary-black));
         }
       }
     }
