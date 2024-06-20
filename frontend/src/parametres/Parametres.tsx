@@ -1,20 +1,22 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { useState, useEffect } from "react";
 import { authenticatedPost } from "../auth/helper";
+import { useAppContext } from "../context/AppContext";
 
 export function Parametres() {
-  const { getAccessTokenSilently, user } = useAuth0();
+  const { getAccessTokenSilently } = useAuth0();
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState<any | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [modificationMode, setModificationMode] = useState(false);
+  const { state } = useAppContext()
 
   useEffect(() => {
     async function callApi() {
       try {
-        const token = await getAccessTokenSilently();
-        const candidat = await authenticatedPost(token, "/v1/candidats", { email: user?.email });
-        setData(candidat);
+        // const token = await getAccessTokenSilently();
+        // const candidat = await authenticatedPost(token, "/v1/candidats", { email: user?.email });
+        setData(state.user);
       } catch (error) {
         setError(`Error from web service: ${error}`);
       } finally {
@@ -22,7 +24,7 @@ export function Parametres() {
       }
     }
     callApi();
-  }, [getAccessTokenSilently, user?.email]);
+  }, );
 
   return loading ? (
     <p>Ça chargeeee Jean-Jacques</p>

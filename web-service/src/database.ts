@@ -27,7 +27,39 @@ async function query(sqlStatement: string, values?: (string | Date)[]): Promise<
 }
 
 export function getFirstOffres(count: number = 3): Promise<any[]> {
-  return query(`SELECT * FROM offre LIMIT ${count}`);
+  return query(`SELECT * FROM offre JOIN commune ON offre.commune_id = commune.id JOIN metier ON offre.metier_id = metier.id LIMIT ${count}`);
+}
+
+export function getOffreDashboard(count:number=4): Promise<any[]> {
+  //delectionner tout les offre joindre avec le nom de la comunne le metier a partir de leur id dans la table offre
+
+  return query(`SELECT * FROM offre JOIN commune ON offre.commune_id = commune.id JOIN metier ON offre.metier_id = metier.id LIMIT ${count}`);
+}
+
+
+export async function getTopMetier(): Promise<any[]> {
+  try {
+    const topSecteurs = await query(`SELECT secteur_id, COUNT(secteur_id) FROM metier GROUP BY secteur_id ORDER BY COUNT(secteur_id) DESC LIMIT 3`);
+    const topMetier: any = []
+
+    for (const secteur of topSecteurs) {
+      const metiers = await query(`SELECT metier.metier
+      FROM metier 
+      JOIN secteur ON metier.secteur_id = secteur.id 
+      WHERE secteur.id = ${secteur.secteur_id} ORDER BY metier.id DESC LIMIT 3
+      `);
+      const secteurNameRequest = await query(`SELECT secteur FROM secteur WHERE id = ${secteur.secteur_id}`);
+      const secteurName = secteurNameRequest[0].secteur;
+
+
+      topMetier.push({secteur: secteurName, nombre_offres: secteur.count, metiers: metiers});  
+    }
+
+    return topMetier;  
+  } catch (error) {
+    console.error('Failed to fetch top sectors and jobs', error);
+    throw error;  
+  }
 }
 
 export function getFirstCandidats(email: string): Promise<any[]> {

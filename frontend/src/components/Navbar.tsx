@@ -1,24 +1,21 @@
 import {useLocation, useNavigate} from "react-router";
 import {User, LogOut, Settings, CircleUser} from "lucide-react"
 import React, {useEffect, useRef, useState} from "react";
+import ButtonComponent from "./ButtonComponent.tsx";
 
-import { useAuth0 } from "@auth0/auth0-react";
+import {useAuth0} from "@auth0/auth0-react";
 
 export default function Navbar() {
     const [profileState, setProfileState] = useState(false)
     const navigation = useNavigate()
     const location = useLocation();
     const dropdown = useRef<HTMLDivElement>(null)
-    const { logout } = useAuth0();
+    const {logout} = useAuth0();
 
     const navbarList = [
         {
             name: 'Dashboard',
             path: '/dashboard'
-        },
-        {
-            name: 'Entreprises',
-            path: '/entreprises'
         },
         {
             name: 'Offres',
@@ -43,7 +40,7 @@ export default function Navbar() {
     ]
 
     useEffect(() => {
-        if(profileState){
+        if (profileState) {
             if (dropdown.current) {
                 dropdown.current.classList.add("dropdown-infos-active");
                 setTimeout(() => {
@@ -83,32 +80,39 @@ export default function Navbar() {
                 </ul>
             </div>
             <div className="action">
-                <div className="icon-container" onClick={handleProfileState}>
-                    <User/>
-                </div>
-                <div className="icon-container" title="Déconnexion"
-                    onClick={() =>
-                        logout({ logoutParams: { returnTo: window.location.origin } 
-                    })}>
-                    <LogOut/>
-                </div>
-                <div className='dropdown-infos' ref={dropdown}>
-                    <ul>
-                        {profilList.map((item, index) => (
-                            <li key={index} onClick={() => navigation(item.path)}>
-                                <div className="key">
-                                    {React.createElement(item.icon)}
-                                </div>
-                                <div className="value">
-                                    <p>
-                                        {item.name}
-                                    </p>
-                                </div>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
-
+                {location.pathname !== '/landing' &&
+                    <>
+                        <div className="icon-container" onClick={handleProfileState}>
+                            <User/>
+                        </div>
+                        <div className="icon-container" title="Déconnexion"
+                             onClick={() =>
+                                 logout({
+                                     logoutParams: {returnTo: window.location.origin}
+                                 })}>
+                            <LogOut/>
+                        </div>
+                        <div className='dropdown-infos' ref={dropdown}>
+                            <ul>
+                                {profilList.map((item, index) => (
+                                    <li key={index} onClick={() => navigation(item.path)}>
+                                        <div className="key">
+                                            {React.createElement(item.icon)}
+                                        </div>
+                                        <div className="value">
+                                            <p>
+                                                {item.name}
+                                            </p>
+                                        </div>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    </>
+                }
+                {location.pathname === '/landing' &&
+                    <ButtonComponent text="Connexion" className=""/>
+                }
             </div>
         </div>
     )

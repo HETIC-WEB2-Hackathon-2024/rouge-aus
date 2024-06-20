@@ -1,6 +1,7 @@
 import express, { json } from "express";
 import { auth } from "express-oauth2-jwt-bearer";
 import cors from "cors";
+import { getFirstOffres, getOffreDashboard, getTopMetier } from "./database";
 
 const port = 3000;
 const app = express();
