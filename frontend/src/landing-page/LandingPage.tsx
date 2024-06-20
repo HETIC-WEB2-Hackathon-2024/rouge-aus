@@ -3,8 +3,12 @@ import TagComponent from "../components/TagComponent.tsx";
 import HiredCardComponent from "../components/HiredCardComponent.tsx";
 import { User, Search, FileText, Briefcase  } from 'lucide-react'
 import {HiredTipProps, jobsArray} from "../types.ts";
+import {useAuth} from "../context/AuthContext.tsx";
+import {useEffect} from "react";
+import {useNavigate} from "react-router";
 
 export default function LandingPage() {
+const {state} = useAuth();
 
     const title: string = 'Cherchez. Postulez. Trouvez'
     const getHiredTitle: string = 'Trouver Son Stage En '
@@ -115,6 +119,14 @@ export default function LandingPage() {
             paragraph: "Créer un compte et connecter vous afin de pouvoir profiter de toutes les fonctionnalités d'AUS et de pouvoir trouver votre futur job"
         }
     ]
+    const navigate = useNavigate();
+
+    // useEffect(() => {
+    //     console.log('state', state);
+    //  if(state.user?.email){
+    //     navigate('/dashboard')
+    //  }
+    // });
 
     const handleActive = (index: number) => {
         console.log(index)
@@ -124,7 +136,7 @@ export default function LandingPage() {
 
     const buttonText: string = "Parcourir les offres"
     return (
-        <div className="landing-page-section">
+        <div className="landing-page-section" onClick={() => console.log('test', state)}>
             <div className="main-section">
                 <div className="presentation">
                     <div className="text-section">

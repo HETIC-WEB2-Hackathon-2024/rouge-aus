@@ -1,6 +1,9 @@
 import React from "react";
 import {useAuth0} from "@auth0/auth0-react";
-
+import {setToken, setUserInfos} from "../context/AuthContext.tsx";
+import {authenticatedPost} from "./helper.ts";
+import {useAuth} from "../context/AuthContext.tsx";
+import {useLocation} from "react-router";
 /**
  * Makes sure user is authenticated before rendering children.
  *
@@ -8,21 +11,38 @@ import {useAuth0} from "@auth0/auth0-react";
  * by Auth0.
  *
  */
+
+const SetupContext = async ({user,getAccessTokenSilently, dispatch})=> {
+  //  const {getAccessTokenSilently, user} = useAuth0();
+    // const {dispatch} = useAuth();
+    const token = await getAccessTokenSilently();
+    console.log('token', token, user?.email)
+    dispatch(setToken(token));
+    const userInfos = await authenticatedPost(token, "/v1/candidats", {email: user?.email});
+    dispatch(setUserInfos(userInfos));
+}
+
+
 export function Authenticated({children}: React.PropsWithChildren) {
-    const {loginWithRedirect, user, isLoading, error} = useAuth0();
+    const {loginWithRedirect, user, isLoading, error, getAccessTokenSilently} = useAuth0();
+    const { state, dispatch } = useAuth();
+    const [isSetup, setIsSetup] = React.useState(false);
+    const location = useLocation();
+
     React.useEffect(() => {
-        console.log('test')
-        console.log('isLoading', isLoading)
-        console.log(children)
-        if (error) {
-            console.log("Error in Authenticated component", error);
-            return;
-        } else if(!user && !isLoading){
-            console.log("Error in Authenticated component 2");
-             loginWithRedirect();
-        }
+            if (error) {
+                return;
+            } else if((!user && !isLoading)){
+                loginWithRedirect(
+                    {
+                        authorizationParams: {
+                            redirect_uri: `http://localhost:5173/layout`
+                        }
+                    }
+                );}
     }, [user, isLoading, loginWithRedirect, error]);
 
+
     if (error) return <div>Oops... {error.message}</div>;
-    return isLoading ? <div>Loading...</div> : <>{children}</>;
+    return isLoading ? <div>Loading...</div> : <>{children}</>
 }

@@ -16,7 +16,6 @@ try {
     const { email } = req.body
     // recuperer le candidat depuis ma base de donne qui correspond au mail dans le body
     const candidat = await getFirstCandidats(email)
-    console.log('candidats', candidat)
     res.send(candidat)
 } catch (error) {
     res.status(500).send({ error: "Internal Server Error", reason: error });
