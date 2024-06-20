@@ -16,6 +16,7 @@ import { Authenticated } from "./auth/Authenticated.tsx";
 import Layout from "./views/Layout.tsx";
 import { AuthProvider } from "./context/AuthContext.tsx";
 import { OffreProvider } from "./context/OffreContext.tsx";
+import Selection from "./selection/selection";
 
 export function App() {
   return (
@@ -54,7 +55,7 @@ export function App() {
                 />
                 <Route
                   path="/selection"
-                  element={<Authenticated children={<Box>Ma sélection</Box>} />}
+                  element={<Authenticated children={<Selection />} />}
                 />
               </Routes>
             </Auth0Provider>
