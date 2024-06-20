@@ -1,5 +1,5 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { Box, TextField } from "@mui/material";
+import { Box } from "@mui/material";
 import React from "react";
 import { authenticatedGet } from "../auth/helper";
 import "./offre.scss";
@@ -22,11 +22,17 @@ export function Offre() {
   React.useEffect(() => {
     async function callApi() {
       try {
+        setError(null);
         setLoading(true);
+        
         window.scrollTo(0, 0);
-        const token = await getAccessTokenSilently();
+        const token = await getAccessTokenSilently(); 
         const document = await authenticatedGet(token, `/v1/offres/${actualPage}/16`);
         setData(document);
+        if(document.lenght > 0){
+          setNoResult(false);
+        }
+        
         console.log(document);
       } catch (error) {
         setError(`Error from web service: ${error}`);
@@ -43,11 +49,12 @@ export function Offre() {
 
   const searchOffres = async (search: string) => {
    try {
+    setError(null);
     if(search === "") return;
     setNoResult(false)
     setLoading(true);
     const token = await getAccessTokenSilently();
-    const document = await authenticatedGet(token, `/v1/offres/search/${search}`)
+    const document = await authenticatedGet(token, `/offres/search/${search}`)
     if(document.error){
       setSearchData([
        "Aucun résultat trouvé"
@@ -83,7 +90,17 @@ export function Offre() {
         </div>
        { !loading ? <ul className="dashboard_box_container large">
         {
-          Noresult? <div>{searchData[0]}</div> : searchData.length > 0 ? searchData.map((offre, index) => {
+          Noresult? 
+         <><div className="no_result">
+            Aucun résultat trouvé
+          </div>
+           {
+            data.map((offre, index) => {
+              return <DashboardBox key={index} offre={offre} />
+            })
+           }
+          </> 
+           : searchData.length > 0 ? searchData.map((offre, index) => {
             return <DashboardBox key={index} offre={offre} />
           }) : data.map((offre, index) => {
             return <DashboardBox key={index} offre={offre} />
