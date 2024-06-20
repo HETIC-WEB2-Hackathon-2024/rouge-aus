@@ -3,11 +3,13 @@ import {useAuth0} from "@auth0/auth0-react";
 import {authenticatedPost} from "../auth/helper";
 import {setToken, setUserInfos, useAuth} from "../context/AuthContext.tsx";
 import {useNavigate} from "react-router";
+import Cookies from "js-cookie";
 
 export default function Layout(){
     const {dispatch} = useAuth();
     const { getAccessTokenSilently, user } = useAuth0();
     const navigate = useNavigate();
+
     useEffect(() => {
         const setupContext = async () => {
             const token = await getAccessTokenSilently();
@@ -16,8 +18,8 @@ export default function Layout(){
             dispatch(setUserInfos(userInfos));
         }
         setupContext();
-        navigate('/dashboard')
-    },[]);
+        navigate( '/dashboard')
+    }, []);
 
     return null;
 }
