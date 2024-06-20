@@ -1,29 +1,28 @@
-import { useAuth0 } from "@auth0/auth0-react";
 import { Box } from "@mui/material";
 import React from "react";
-import { authenticatedGet, authenticatedPost } from "../auth/helper";
+import { useAuth0 } from "@auth0/auth0-react";
+import { authenticatedGet } from "../auth/helper";
 import { DashboardBox } from "../components/cards/DashboardBox";
 import RecruteBox from "../components/cards/RecruteBox";
 import { useAuth } from "../context/AuthContext";
 import CompleteBox from "../components/cards/profilCompleteBox.tsx";
-
 export function Dashboard() {
+  const { getAccessTokenSilently } = useAuth0();
   const [loading, setLoading] = React.useState(true);
   const [data, setData] = React.useState<any[] | null>(null);
   const [topMetier, setTopMetier] = React.useState<any[] | null>(null);
   const [error, setError] = React.useState<string | null>(null);
   const { state } = useAuth();
+  const user: any = state.user;
 
   React.useEffect(() => {
     console.log("state in dashboard", state);
     async function callApi() {
       try {
-        const document = await authenticatedGet(
-          state.token,
-          "/v1/offres/dashboard/6"
-        );
+        const token = await getAccessTokenSilently();
+        const document = await authenticatedGet(token, "/offres/dashboard/6");
         const topOffres = await authenticatedGet(
-          state.token,
+          token,
           "/v1/offres/top-metier"
         );
         setData(document);

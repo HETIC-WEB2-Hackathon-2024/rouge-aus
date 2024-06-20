@@ -3,6 +3,7 @@ import "./selection.scss";
 import { useAuth0 } from "@auth0/auth0-react";
 import { authenticatedGet } from "../auth/helper";
 import { Trash2 } from "lucide-react";
+import { DashboardBox } from "../components/cards/DashboardBox";
 
 export default function Selection() {
   const { getAccessTokenSilently } = useAuth0();
@@ -32,27 +33,13 @@ export default function Selection() {
       {error ? (
         `Dashboard: response from API (with auth) ${error}`
       ) : (
-        <div className="Section_selection">
-          {data?.map((offre: any) => (
-            <div className="Card" key={offre.id}>
-              <div className="Card_section_company">
-                <p className="company_name">{offre.entreprise}</p>
-              </div>
-              <div className="Card_section_details_first">
-                <p>{offre.titre_emploi}</p>
-                <ul className="Card_section_details_second">
-                  <li>{offre.type_contrat}</li>
-                  <li>{offre.contrat}</li>
-                  <li>{offre.lieu}</li>
-                </ul>
-                <p>{offre.description_courte}</p>
-              </div>
-              <div className="Card_icon_container">
-                <Trash2 />
-              </div>
-            </div>
-          ))}
-        </div>
+        <ul className="dashboard_box_container">
+          {data &&
+            data.length > 0 &&
+            data.map((offre, index) => (
+              <DashboardBox offre={offre} key={index} />
+            ))}
+        </ul>
       )}
     </div>
   );
