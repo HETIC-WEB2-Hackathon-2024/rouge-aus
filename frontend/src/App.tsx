@@ -1,5 +1,5 @@
 import {Box} from "@mui/material";
-import {BrowserRouter, Routes, Route} from "react-router-dom";
+import {BrowserRouter, Routes, Route, createBrowserRouter, Outlet} from "react-router-dom";
 import {Dashboard} from "./dashboard/Dashboard";
 import {Parametres} from "./parametres/Parametres";
 import {Offre} from "./offre/Offre.tsx";
@@ -10,6 +10,7 @@ import {Authenticated} from "./auth/Authenticated.tsx";
 import {useReducer} from "react";
 import {AppContext, initialState, reducer} from "./context/AppContext.ts";
 import Selection from "./selection/selection";
+import Entreprises from "./entreprises/Entreprises.tsx";
 
 const router = createBrowserRouter([
   {
