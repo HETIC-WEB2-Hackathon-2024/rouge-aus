@@ -9,6 +9,65 @@ import {Auth0Provider} from "@auth0/auth0-react";
 import {Authenticated} from "./auth/Authenticated.tsx";
 import {useReducer} from "react";
 import {AppContext, initialState, reducer} from "./context/AppContext.ts";
+import Selection from "./selection/selection";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Layout />,
+    children: [
+      {
+        path: "landing",
+        element: <LandingPage />,
+      },
+      {
+        path: "dashboard",
+        element: <Dashboard />,
+      },
+      {
+        path: "entreprises",
+        element: <Entreprises />,
+      },
+      {
+        path: "offres",
+        element: <Offre />,
+      },
+      {
+        path: "parametres",
+        element: <Parametres />,
+      },
+      {
+        path: "selection",
+        element: <Selection />,
+      },
+    ],
+  },
+]);
+// const MainBox = styled(Box)`
+//   display: flex;
+//   flex-direction: column;
+//   height: 100%;
+// `;
+
+function Layout() {
+  return (
+    <>
+      <Navbar />
+      <Outlet />
+    </>
+
+    // <AppTheme>
+    //   <MainBox>
+    //     <CssBaseline />
+    //     <TopMenu />
+    //     <Box component="main">
+    //       <Toolbar />
+    //       <Outlet />
+    //     </Box>
+    //   </MainBox>
+    // </AppTheme>
+  );
+}
 
 export function App() {
     const [state, dispatch] = useReducer(reducer, initialState);
