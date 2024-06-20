@@ -4,7 +4,7 @@ import { authenticatedPost } from "../auth/helper";
 import { useAppContext } from "../context/AppContext";
 
 export function Parametres() {
-  const { getAccessTokenSilently } = useAuth0();
+  // const { getAccessTokenSilently } = useAuth0();
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState<any | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -55,11 +55,12 @@ export function Parametres() {
 
 function Form({ setModificationMode, data }: { setModificationMode: (value: boolean) => void, data: any }) {
   const { getAccessTokenSilently } = useAuth0();
+  const { state, dispatch } = useAppContext()
   
   const sendProfileData = async (profileData: object) => {
     try {
-      const token = await getAccessTokenSilently();
-      const candidat = await authenticatedPost(token, "/v1/updateProfile", profileData);
+      // const token = await getAccessTokenSilently();
+      const candidat = await authenticatedPost(state.token, "/v1/updateProfile", profileData);
       console.log(candidat);
       setModificationMode(false);
     } catch (error) {
