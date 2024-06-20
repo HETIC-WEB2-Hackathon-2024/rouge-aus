@@ -7,95 +7,39 @@ import LandingPage from "./landing-page/LandingPage.tsx";
 import Navbar from "./components/Navbar.tsx";
 import {Auth0Provider} from "@auth0/auth0-react";
 import {Authenticated} from "./auth/Authenticated.tsx";
-import {useReducer} from "react";
-import {AppContext, initialState, reducer} from "./context/AppContext.ts";
-import Selection from "./selection/selection";
-import Entreprises from "./entreprises/Entreprises.tsx";
+import Layout from "./views/Layout.tsx";
+import {AuthProvider} from "./context/AuthContext.tsx";
+import {OffreProvider} from "./context/OffreContext.tsx";
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Layout />,
-    children: [
-      {
-        path: "landing",
-        element: <LandingPage />,
-      },
-      {
-        path: "dashboard",
-        element: <Dashboard />,
-      },
-      {
-        path: "entreprises",
-        element: <Entreprises />,
-      },
-      {
-        path: "offres",
-        element: <Offre />,
-      },
-      {
-        path: "profile",
-        element: <Parametres />,
-      },
-      {
-        path: "selection",
-        element: <Selection />,
-      },
-    ],
-  },
-]);
-// const MainBox = styled(Box)`
-//   display: flex;
-//   flex-direction: column;
-//   height: 100%;
-// `;
-
-function Layout() {
-  return (
-    <>
-      <Navbar />
-      <Outlet />
-    </>
-
-    // <AppTheme>
-    //   <MainBox>
-    //     <CssBaseline />
-    //     <TopMenu />
-    //     <Box component="main">
-    //       <Toolbar />
-    //       <Outlet />
-    //     </Box>
-    //   </MainBox>
-    // </AppTheme>
-  );
-}
 
 
 export function App() {
-    const [state, dispatch] = useReducer(reducer, initialState);
     return (
         <>
-        <AppContext.Provider value={{state, dispatch}}>
-            <BrowserRouter>
-                <Navbar/>
-                <Auth0Provider
-                    domain="rouge-aus.eu.auth0.com"
-                    clientId="ky2NZpStWuhMYVy9WZBeBb5QQXEndo8P"
-                    authorizationParams={{
-                        audience: "api.rouge.aus.floless.fr",
-                        redirect_uri: window.location.origin,
-                    }}
-                >
-                    <Routes>
-                        <Route path="/" element={<LandingPage/>}/>
-                        <Route path="/dashboard" element={<Authenticated children={<Dashboard/>}/>}/>
-                        <Route path="/offres" element={<Authenticated children={<Offre/>}/>}/>
-                        <Route path="/profile" element={<Authenticated children={<Parametres/>}/>}/>
-                        <Route path="/selection" element={<Authenticated children={<Box>Ma sélection</Box>}/>}/>
-                </Routes>
-            </Auth0Provider>
-        </BrowserRouter>
-        </AppContext.Provider>
-</>
-)
+            <AuthProvider>
+                <OffreProvider>
+                    <BrowserRouter>
+                        <Navbar/>
+                        <Auth0Provider
+                            domain="rouge-aus.eu.auth0.com"
+                            clientId="ky2NZpStWuhMYVy9WZBeBb5QQXEndo8P"
+                            authorizationParams={{
+                                audience: "api.rouge.aus.floless.fr",
+                                redirect_uri: window.location.origin,
+                            }}
+                        >
+                            <Routes>
+                                <Route path="/" element={<Authenticated children={<LandingPage/>}/>}/>
+                                <Route path="/layout" element={<Authenticated children={<Layout/>}/>}/>
+                                <Route path="/dashboard" element={<Authenticated children={<Dashboard/>}/>}/>
+                                <Route path="/offres" element={<Authenticated children={<Offre/>}/>}/>
+                                <Route path="/profile" element={<Authenticated children={<Parametres/>}/>}/>
+                                <Route path="/selection" element={<Authenticated children={<Box>Ma sélection</Box>}/>}/>
+                            </Routes>
+                        </Auth0Provider>
+                    </BrowserRouter>
+                </OffreProvider>
+            </AuthProvider>
+        </>
+    )
 }
