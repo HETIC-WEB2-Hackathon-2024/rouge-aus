@@ -26,8 +26,12 @@ async function query(sqlStatement: string): Promise<any[]> {
   return rows;
 }
 
-export function getFirstOffres(count: number = 3): Promise<any[]> {
-  return query(`SELECT * FROM offre JOIN commune ON offre.commune_id = commune.id JOIN metier ON offre.metier_id = metier.id LIMIT ${count}`);
+export function getFirstOffres(actualPage:number=1, count:number=10): Promise<any[]> {
+ //faire un systeme de pagination pour afficher les offres par 10
+
+  const limit = 10;
+  const offset = (actualPage - 1) * limit;
+  return query(`SELECT * FROM offre JOIN commune ON offre.commune_id = commune.id JOIN metier ON offre.metier_id = metier.id LIMIT ${count} OFFSET ${offset}`);
 }
 
 export function getOffreDashboard(count:number=4): Promise<any[]> {
@@ -61,7 +65,9 @@ export async function getTopMetier(): Promise<any[]> {
     throw error;  
   }
 }
-
+export function searchOffres(search: string): Promise<any[]> {
+  return query(`SELECT * FROM offre WHERE titre_emploi LIKE '%${search}%' OR lieu LIKE '%${search}%' OR contrat LIKE '%${search}%' limit 20`);
+}
 export function getFirstCandidats(email: string): Promise<any[]> {
   return query(`SELECT * FROM candidat WHERE candidat.email = '${email}' LIMIT 1`)
   .then(results => results[0]);

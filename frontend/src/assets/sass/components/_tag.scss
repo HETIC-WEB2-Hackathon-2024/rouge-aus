@@ -13,7 +13,7 @@
   box-shadow: 0 0 50px rgba(0,0,0,0.05);
 
   p{
-    @include u.font("Poppins", 600, 1.2rem, var(--primary-black));
+    @include u.font("Nunito Sans", 600, 1.2rem, var(--primary-black));
     white-space: nowrap;
   }
 }
