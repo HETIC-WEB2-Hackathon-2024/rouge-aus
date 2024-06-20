@@ -8,6 +8,13 @@
     max-height: 300px;
     border: 1px solid var(--primary-grey);
     border-radius: 1.6rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:hover {
+        box-shadow: 0 0 0 5px var(--light-blue);
+        transform: perspective(200px) rotate3d(1, 1, 1, 2deg);
+    }
 
     .titre_offre {
         font-size: 1.6rem;

@@ -30,7 +30,8 @@ export function Parametres() {
   // const [phoneNumber, setPhoneNumber] = React.useState(data.telephone)
   // const [country, setCountry] = React.useState(data.pays)
   // const [birthDate, setBirthDate] = React.useState(data.date_naissance)
-
+  const img1 = "1955LGnt_8pX873ib0KA3ktA5m1GaZInt";
+  const link = `https://drive.google.com/file/d/${img1}/view`;
 
   return loading ? (
     <p>Ça chargeeee Jean-Jacques</p>
@@ -38,6 +39,7 @@ export function Parametres() {
     !modificationMode ? (
       <>
         <div>
+          <img src={link} alt="" />
           <p>Nom: {data?.nom}</p>
           <p>Prénom: {data?.prenom}</p>
           <p>Téléphone: {data?.telephone}</p>

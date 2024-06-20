@@ -1,5 +1,5 @@
 import {Box} from "@mui/material";
-import {BrowserRouter, Routes, Route} from "react-router-dom";
+import {BrowserRouter, Routes, Route, createBrowserRouter, Outlet} from "react-router-dom";
 import {Dashboard} from "./dashboard/Dashboard";
 import {Parametres} from "./parametres/Parametres";
 import {Offre} from "./offre/Offre.tsx";
