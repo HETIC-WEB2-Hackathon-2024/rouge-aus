@@ -38,9 +38,9 @@ export function Dashboard() {
     }
 
     callApi();
-  }, [state]);
+  });
 
-  return loading && !user ? (
+  return loading && !state.user ? (
     <Box>chargement...</Box>
   ) : (
     <>
