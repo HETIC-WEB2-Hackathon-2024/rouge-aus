@@ -2,17 +2,40 @@
     display: flex;
     gap: 3.2rem;
     padding: 3.2rem;
+    align-items: flex-start;
+    justify-content: center;
     width: 100%;
     font-family: 'Nunito Sans', sans-serif;
 
 }
 
+.titre_dashboard{
+    margin-top: 6rem;
+    font-size: 1.6rem;
+    margin-left: 3.2rem;
+    font-family: 'nunito sans';
+    font-weight: 800;
+    color: var(--primary-black);
+
+    h2{
+        font-size: 1.6rem;
+        font-weight: 400;
+        color: var(--primary-black);
+    
+    }
+
+}
 .dashboard_box_container {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(30rem, 1fr));
     gap: 3.2rem;
     width: 70%;
     margin-top: 3.2rem;
+
+    &.large{
+        width: 100%;
+        padding: 3.2rem;
+    }
     
 }
 .dasboard_section2{

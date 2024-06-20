@@ -1,10 +1,11 @@
-export function DashboardBox({ offre, key }: { offre: any; key: any }) {
+export function DashboardBox({ offre, key }: { offre: any; key: number }) {
   const description_courting = (text: string) => {
     if (text.length > 100) {
       return text.slice(0, 100) + "...";
     }
     return text;
   };
+
   return (
     <div key={key} className="box_offre">
       <h2 className="titre_offre">{offre.titre_emploi}</h2>
