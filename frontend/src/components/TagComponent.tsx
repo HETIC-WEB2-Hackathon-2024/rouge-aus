@@ -6,7 +6,7 @@ interface Props {
 export default function TagComponent({active, text}: Props){
 
     const handleTagClassName = () :string => {
-        return active ? 'tag-container' : 'tag-container active'
+        return active ? 'tag-container' : 'tag-container active-tag'
     }
     return (
         <div className={handleTagClassName()}>
