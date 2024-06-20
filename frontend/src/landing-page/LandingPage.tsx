@@ -4,10 +4,9 @@ import HiredCardComponent from "../components/HiredCardComponent.tsx";
 import { User, Search, FileText, Briefcase  } from 'lucide-react'
 import {HiredTipProps, jobsArray} from "../types.ts";
 import {useAuth} from "../context/AuthContext.tsx";
-import {useEffect} from "react";
 import {useNavigate} from "react-router";
 
-export default function LandingPage({ name }) {
+export default function LandingPage() {
 const {state} = useAuth();
 
     const title: string = 'Cherchez. Postulez. Trouvez'
