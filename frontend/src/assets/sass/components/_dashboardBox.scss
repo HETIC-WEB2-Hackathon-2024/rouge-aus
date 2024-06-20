@@ -5,7 +5,7 @@
     padding:  2.4rem;
     background-color: var(--primary-white);
     font-family: 'nunito sans';
- 
+    max-height: 300px;
     border: 1px solid var(--primary-grey);
     border-radius: 1.6rem;
 
@@ -50,6 +50,7 @@
         gap: 1.6rem;
         justify-content: space-between;
         font-size: larger;
+        margin-top: auto;
 
         .button_offre {
             padding: 1rem 1.6rem;
