@@ -13,21 +13,27 @@ export function Dashboard() {
   const [topMetier, setTopMetier] = React.useState<any[] | null>(null);
   const [error, setError] = React.useState<string | null>(null);
   const { state } = useAuth();
+  const { getAccessTokenSilently } = useAuth0();
+
 
   React.useEffect(() => {
-    console.log("state in dashboard", state);
+    console.log('ici')
     async function callApi() {
+      const token = await getAccessTokenSilently();
+      console.log('ici')
       try {
         const document = await authenticatedGet(
-          state.token,
+          token,
           "/v1/offres/dashboard/6"
         );
+        console.log('document', document)
         const topOffres = await authenticatedGet(
-          state.token,
+          token,
           "/v1/offres/top-metier"
         );
         setData(document);
         setTopMetier(topOffres);
+        console.log(data)
       } catch (error) {
         setTimeout(() => {
           setError(`Error from web service: ${error}`);
@@ -38,7 +44,7 @@ export function Dashboard() {
     }
 
     callApi();
-  });
+  }, [getAccessTokenSilently]);
 
   return loading && !state.user ? (
     <Box>chargement...</Box>
