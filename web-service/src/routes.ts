@@ -2,17 +2,17 @@ import express, { json } from "express";
 const router = express.Router();
 import {getFirstCandidats, getFirstOffres, updateProfile, getOffreDashboard, getTopMetier} from "./database";
 
-const multer = require('multer');
+// const multer = require('multer');
 
-const storage = multer.diskStorage({
-    destination: function(req, file, cb) {
-        cb(null, '/uploads')
-    },
-    filename: function(req, file, cb) {
-        cb(null, file.originalname)
-    }
-})
-const upload = multer({ storage })
+// const storage = multer.diskStorage({
+//     destination: function(req, file, cb) {
+//         cb(null, '/uploads')
+//     },
+//     filename: function(req, file, cb) {
+//         cb(null, file.originalname)
+//     }
+// })
+// const upload = multer({ storage })
 
 // Route pour récupérer le candidate connecté et l'afficher
 router.post("/v1/candidats", async function (req, res) {
@@ -48,10 +48,10 @@ router.post("/v1/updateProfile", async function (req, res) {
 })
 
 // Route pour l'upload de fichiers
-router.post("/v1/uploadFile", upload.single('file'), async function (req, res) {
-    console.log("Success")
+// router.post("/v1/uploadFile", upload.single('file'), async function (req, res) {
+//     console.log("Success")
     // res.send('Upload successful')
-})
+// })
 
 router.get("/v1/offres", async function (_, res) {
     try {

@@ -4,7 +4,7 @@ import { authenticatedPost } from "../auth/helper";
 import { useAppContext } from "../context/AppContext";
 
 export function Parametres() {
-  // const { getAccessTokenSilently } = useAuth0();
+  const { getAccessTokenSilently, user } = useAuth0();
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState<any | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -14,9 +14,9 @@ export function Parametres() {
   useEffect(() => {
     async function callApi() {
       try {
-        // const token = await getAccessTokenSilently();
-        // const candidat = await authenticatedPost(token, "/v1/candidats", { email: user?.email });
-        setData(state.user);
+        const token = await getAccessTokenSilently();
+        const candidat = await authenticatedPost(token, "/v1/candidats", { email: user?.email });
+        setData(candidat);
       } catch (error) {
         setError(`Error from web service: ${error}`);
       } finally {
@@ -24,29 +24,30 @@ export function Parametres() {
       }
     }
     callApi();
-  }, );
+  },[getAccessTokenSilently, user?.email] );
 
   return loading ? (
-    <p>Ça chargeeee Jean-Jacques</p>
+    <p>Un instant</p>
   ) : (
     !modificationMode ? (
       <>
-        <div>
-          <p>Nom: {data?.nom}</p>
-          <p>Prénom: {data?.prenom}</p>
-          <p>Téléphone: {data?.telephone}</p>
-          <p>Email: {data?.email}</p>
-          <p>Pays: {data?.pays}</p>
-          <p>Date de naissance: {data?.date_naissance}</p>
-          <p>Secteur d'activité: {data?.secteur_activite}</p>
-          <p>Biographie: {data?.biographie}</p>
-          <p>LinkedIn: {data?.linkedin}</p>
-          <p>Site web externe: {data?.site_web}</p>
+      <div className="profile-container">
+        <div className="profile-details">
+          <p className="profile-item-email"><span className="profile-data">{data?.email}</span></p>
+          <p className="profile-item"><span className="profile-data">{data?.nom}</span></p>
+          <p className="profile-item"><span className="profile-data">{data?.prenom}</span></p>
+          <p className="profile-item"><span className="profile-data">{data?.telephone}</span></p>
+          <p className="profile-item"><span className="profile-data">{data?.pays}</span></p>
+          <p className="profile-item">Secteur d'activité <span className="profile-data">{data?.secteur_activite}</span></p>
+          <p className="profile-item">LinkedIn  <span className="profile-data">{data?.linkedin}</span></p>
+          <p className="profile-item">Site web externe <span className="profile-data">{data?.site_web}</span></p>
+          <p className="profile-item">Biographie <span className="profile-data">{data?.biographie}</span></p>
         </div>
-        <div>
-          <button onClick={() => setModificationMode(true)}>Modifier</button>
+        <div className="button-container">
+          <button className="edit-button" onClick={() => setModificationMode(true)}>Modifier</button>
         </div>
-      </>
+      </div>
+    </>
     ) : (
       <Form setModificationMode={setModificationMode} data={data} />
     )
@@ -55,12 +56,12 @@ export function Parametres() {
 
 function Form({ setModificationMode, data }: { setModificationMode: (value: boolean) => void, data: any }) {
   const { getAccessTokenSilently } = useAuth0();
-  const { state, dispatch } = useAppContext()
+  // const { state, dispatch } = useAppContext()
   
   const sendProfileData = async (profileData: object) => {
     try {
-      // const token = await getAccessTokenSilently();
-      const candidat = await authenticatedPost(state.token, "/v1/updateProfile", profileData);
+      const token = await getAccessTokenSilently();
+      const candidat = await authenticatedPost(token, "/v1/updateProfile", profileData);
       console.log(candidat);
       setModificationMode(false);
     } catch (error) {
@@ -98,52 +99,52 @@ function Form({ setModificationMode, data }: { setModificationMode: (value: bool
   };
 
   return (
-    <div>
-      <form onSubmit={submitForm}>
-        <div>
-          <label htmlFor="">Nom</label>
-          <input type="text" onChange={(e) => setName(e.target.value)} value={name} />
-        </div>
-        <div>
-          <label htmlFor="">Prénom</label>
-          <input type="text" onChange={(e) => setFirstname(e.target.value)} value={firstname} />
-        </div>
-        <div>
-          <label htmlFor="">Téléphone</label>
-          <input type="text" onChange={(e) => setPhoneNumber(e.target.value)} value={phoneNumber} />
-        </div>
-        <div>
-          <label htmlFor="">Pays</label>
-          <input type="text" onChange={(e) => setCountry(e.target.value)} value={country} />
-        </div>
-        <div>
-          <label htmlFor="">Secteur d'activité</label>
-          <select name="" id="" onChange={(e) => setIndustry(e.target.value)}>
-            <option value="">--Sélectionner un secteur d'activité--</option>
-            <option value="">Informatique</option>
-            <option value="">Finance</option>
-            <option value="">Architecture</option>
-            <option value="">Agriculture</option>
-            <option value="">Restauration</option>
-          </select>
-          {/* <input type="text" onChange={(e) => setIndustry(e.target.value)} value={industry}/> */}
-        </div>
-        <div>
-          <label htmlFor="">Profil LinkedIn</label>
-          <input type="text" onChange={(e) => setLinkedin(e.target.value)} value={linkedin} />
-        </div>
-        <div>
-          <label htmlFor="">Site web externe</label>
-          <input type="text" onChange={(e) => setWebsite(e.target.value)} value={website} />
-        </div>
-        <div>
-          <label htmlFor="">Biographie</label>
-          <textarea name="" onChange={(e) => setBio(e.target.value)} value={bio}></textarea>
-          {/* <input type="text" onChange={(e) => setBio(e.target.value)} value={bio}/> */}
-        </div>
-        <input type="submit" value="Enregistrer" />
-        <button type="button" onClick={() => setModificationMode(false)}>Annuler</button>
-      </form>
+    <div className="form-container">
+  <form onSubmit={submitForm} className="form">
+    <div className="form-group">
+      <label htmlFor="name" className="form-label">Nom</label>
+      <input type="text" id="name" className="form-input" onChange={(e) => setName(e.target.value)} value={name} />
     </div>
+    <div className="form-group">
+      <label htmlFor="firstname" className="form-label">Prénom</label>
+      <input type="text" id="firstname" className="form-input" onChange={(e) => setFirstname(e.target.value)} value={firstname} />
+    </div>
+    <div className="form-group">
+      <label htmlFor="phoneNumber" className="form-label">Téléphone</label>
+      <input type="text" id="phoneNumber" className="form-input" onChange={(e) => setPhoneNumber(e.target.value)} value={phoneNumber} />
+    </div>
+    <div className="form-group">
+      <label htmlFor="country" className="form-label">Pays</label>
+      <input type="text" id="country" className="form-input" onChange={(e) => setCountry(e.target.value)} value={country} />
+    </div>
+    <div className="form-group">
+      <label htmlFor="industry" className="form-label">Secteur d'activité</label>
+      <select id="industry" className="form-select" onChange={(e) => setIndustry(e.target.value)}>
+        <option value="">--Sélectionner un secteur d'activité--</option>
+        <option value="Informatique">Informatique</option>
+        <option value="Finance">Finance</option>
+        <option value="Architecture">Architecture</option>
+        <option value="Agriculture">Agriculture</option>
+        <option value="Restauration">Restauration</option>
+      </select>
+    </div>
+    <div className="form-group">
+      <label htmlFor="linkedin" className="form-label">Profil LinkedIn</label>
+      <input type="text" id="linkedin" className="form-input" onChange={(e) => setLinkedin(e.target.value)} value={linkedin} />
+    </div>
+    <div className="form-group">
+      <label htmlFor="website" className="form-label">Site web externe</label>
+      <input type="text" id="website" className="form-input" onChange={(e) => setWebsite(e.target.value)} value={website} />
+    </div>
+    <div className="form-group">
+      <label htmlFor="bio" className="form-label">Biographie</label>
+      <textarea id="bio" className="form-textarea" onChange={(e) => setBio(e.target.value)} value={bio}></textarea>
+    </div>
+    <div className="form-actions">
+      <input type="submit" value="Enregistrer" className="form-submit" />
+      <button type="button" className="form-button" onClick={() => setModificationMode(false)}>Annuler</button>
+    </div>
+  </form>
+</div>
   );
 }
