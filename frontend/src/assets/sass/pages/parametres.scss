@@ -1,0 +1,137 @@
+@use "../utils" as u;
+
+.profile-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: calc(100vh - 6.6rem - 2rem); // Ajustement de la hauteur pour tenir compte de la navbar et de la marge en haut
+    font-family: 'Nunito Sans', sans-serif;
+    background-color: var(--primary-white);
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    margin: 2rem auto 0 auto; // Marge en haut ajoutée de 2rem
+    width: 80%;
+    max-width: 600px;
+  
+    .profile-details {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      width: 100%;
+  
+      .profile-item {
+        margin: 10px 0;
+        font-size: 16px;
+        color: #333;
+  
+        &:before {
+          content: '• ';
+          color: #28a745; // Green color for the bullet point
+        }
+      }
+    }
+  
+    .button-container {
+      display: flex;
+      justify-content: flex-end;
+      width: 100%;
+      margin-top: 20px;
+  
+      .edit-button {
+        background-color: #28a745; // Green color
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+  
+        &:hover {
+          background-color: #218838; // Darker green on hover
+        }
+      }
+    }
+  }
+  
+  
+//////////////////////////////
+
+.form-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 6.6rem); // Ajustez la hauteur pour tenir compte de la navbar
+  background-color: var(--primary-white);
+  padding: 20px;
+
+  .form {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 600px;
+    font-family: 'Nunito Sans', sans-serif;
+
+    .form-group {
+      margin-bottom: 15px;
+
+      .form-label {
+        display: block;
+        margin-bottom: 5px;
+        color: #333;
+      }
+
+      .form-input,
+      .form-select,
+      .form-textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+        outline: none;
+
+        &:focus {
+          border-color: #28a745; // Couleur verte pour le focus
+        }
+      }
+
+      .form-textarea {
+        resize: vertical;
+        height: 100px;
+      }
+    }
+
+    .form-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .form-submit,
+      .form-button {
+        background-color: #28a745; // Couleur verte
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+
+        &:hover {
+          background-color: #218838; // Vert plus foncé au survol
+        }
+      }
+
+      .form-button {
+        background-color: #ccc;
+
+        &:hover {
+          background-color: #bbb;
+        }
+      }
+    }
+  }
+}
