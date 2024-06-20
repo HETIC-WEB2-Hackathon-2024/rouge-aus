@@ -3,6 +3,7 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { Dashboard } from "./dashboard/Dashboard";
 import { Parametres } from "./parametres/Parametres";
 import { Offre } from "./offre/Offre.tsx";
+import Selection from "./selection/selection";
 import { AppTheme } from "./Theme";
 import LandingPage from "./landing-page/LandingPage.tsx";
 import Navbar from "./components/Navbar.tsx";
@@ -36,7 +37,7 @@ const router = createBrowserRouter([
       },
       {
         path: "selection",
-        element: <Box>Ma sélection</Box>,
+        element: <Selection />,
       },
     ],
   },
