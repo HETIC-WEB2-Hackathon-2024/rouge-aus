@@ -96,7 +96,7 @@ export function Offre() {
           </div>
            {
             data.map((offre, index) => {
-              return <DashboardBox key={index} offre={offre} />
+              return <DashboardBox key={index} offre={offre}/>
             })
            }
           </> 

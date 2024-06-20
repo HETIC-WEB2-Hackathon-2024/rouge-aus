@@ -1,6 +1,14 @@
 import express, { json } from "express";
 const router = express.Router()
-import {getFirstCandidats, getFirstOffres, getOffreDashboard, getTopMetier, searchOffres} from "./database";
+import {
+    getFavoris,
+    getFirstCandidats,
+    getFirstOffres,
+    getOffreDashboard,
+    getTopMetier,
+    searchOffres,
+    updateFavoris
+} from "./database";
 
 router.get("/v1/offres", async function (_, res) {
     try {
@@ -31,12 +39,23 @@ router.post("/v1/updateProfile", async function (req, res) {
     }
 })
 
+router.post("/v1/favoris", async function (req, res){
+    try{
+        const {user_id, offre_id} = req.body
+        const favoris = await updateFavoris({user_id, offre_id})
+    }catch(error){
+
+    }
+})
+
 
 router.get("/v1/offres/:page/:count", async function (req, res) {
     try {
         const page = parseInt(req.params.page);
         const count = parseInt(req.params.count);
         const offres = await getFirstOffres(page, count);
+        console.log('offres recived', offres)
+
         res.status(200).send(offres);
     } catch (error) {
         res.status(500).send({ error: "Internal Server Error", reason: error });
@@ -76,6 +95,13 @@ router.get("/offres/search/:string" , async function (req, res){
     catch(error){
         res.status(500).send({error:"error", reason:error})
     }
+})
+
+router.post("/v1/getfavoris", async function (req, res ){
+    const { user_id } =  req.body
+
+    const favoris = await getFavoris(user_id)
+    res.status(200).send(favoris)
 })
     
 

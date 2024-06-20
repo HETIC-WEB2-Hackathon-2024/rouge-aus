@@ -16,7 +16,7 @@ import { Authenticated } from "./auth/Authenticated.tsx";
 import Layout from "./views/Layout.tsx";
 import { AuthProvider } from "./context/AuthContext.tsx";
 import { OffreProvider } from "./context/OffreContext.tsx";
-import { Selection } from
+import Selection from "./selection/selection";
 
 export function App() {
   return (
