@@ -14,7 +14,7 @@ router.get("/v1/offres", async function (_, res) {
 router.post("/v1/candidats", async function (req, res) {
 try {
     const { email } = req.body
-    // recuperer le candidat depuis ma base de donne qui correspond au mail dans le body
+    // recuperer le candidat depuis la bdd qui correspond au mail connecté
     const candidat = await getFirstCandidats(email)
     // console.log(candidat)
     res.send(candidat)
@@ -23,31 +23,13 @@ try {
 }
 });
 
-// router.post("/v1/updateProfile", async function (req, res) {
-//     try {
-//         const { email, name, firstname, phoneNumber, country } = req.body
-//         console.log("NAME", name, "PRENOM", firstname)
-
-//         try {
-//             const profile = await updateProfile(email, name, firstname, phoneNumber, country)
-//             console.log("PROFIL ICI : ", profile)         
-//         } catch (error) {
-//             console.log(error)  
-//         }
-
-//     } catch (error) {
-//         console.log("ERREUR PROFIL", error)
-//         res.send({error : error})
-//     }
-// })
-
 router.post("/v1/updateProfile", async function (req, res) {
     try {
-        const { email, name, firstname, phoneNumber, country } = req.body;
+        const { email, name, firstname, phoneNumber, country, industry, bio, linkedin, website } = req.body;
         console.log("NAME", name, "PRENOM", firstname);
 
         try {
-            const profile = await updateProfile({nom : name, prenom : firstname, telephone: phoneNumber, pays :country, email});
+            const profile = await updateProfile({nom : name, prenom : firstname, telephone: phoneNumber, pays: country, secteur_activite: industry, biographie: bio, linkedin: linkedin, site_web: website, email});
             console.log("PROFIL ICI : ", profile);
             res.status(200).send(profile);
         } catch (error) {

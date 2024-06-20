@@ -36,6 +36,10 @@ export function Parametres() {
           <p>Email: {data?.email}</p>
           <p>Pays: {data?.pays}</p>
           <p>Date de naissance: {data?.date_naissance}</p>
+          <p>Secteur d'activité: {data?.secteur_activite}</p>
+          <p>Biographie: {data?.biographie}</p>
+          <p>LinkedIn: {data?.linkedin}</p>
+          <p>Site web externe: {data?.site_web}</p>
         </div>
         <div>
           <button onClick={() => setModificationMode(true)}>Modifier</button>
@@ -66,6 +70,10 @@ function Form({ setModificationMode, data }: { setModificationMode: (value: bool
   const [firstname, setFirstname] = useState(data?.prenom || "");
   const [phoneNumber, setPhoneNumber] = useState(data?.telephone || "");
   const [country, setCountry] = useState(data?.pays || "");
+  const [industry, setIndustry] = useState(data?.secteur_activite || "");
+  const [bio, setBio] = useState(data?.biographie || "");
+  const [linkedin, setLinkedin] = useState(data?.linkedin || "");
+  const [website, setWebsite] = useState(data?.site_web || "");
   // const [birthDate, setBirthDate] = useState(data?.date_naissance || "");
 
   const submitForm = (e: any) => {
@@ -75,7 +83,11 @@ function Form({ setModificationMode, data }: { setModificationMode: (value: bool
       name,
       firstname,
       phoneNumber,
-      country
+      country,
+      industry,
+      bio,
+      linkedin,
+      website
       // birthDate: birthDate,
     };
     console.log("Données profil : ", profileData);
@@ -100,6 +112,31 @@ function Form({ setModificationMode, data }: { setModificationMode: (value: bool
         <div>
           <label htmlFor="">Pays</label>
           <input type="text" onChange={(e) => setCountry(e.target.value)} value={country} />
+        </div>
+        <div>
+          <label htmlFor="">Secteur d'activité</label>
+          <select name="" id="" onChange={(e) => setIndustry(e.target.value)}>
+            <option value="">--Sélectionner un secteur d'activité--</option>
+            <option value="">Informatique</option>
+            <option value="">Finance</option>
+            <option value="">Architecture</option>
+            <option value="">Agriculture</option>
+            <option value="">Restauration</option>
+          </select>
+          {/* <input type="text" onChange={(e) => setIndustry(e.target.value)} value={industry}/> */}
+        </div>
+        <div>
+          <label htmlFor="">Profil LinkedIn</label>
+          <input type="text" onChange={(e) => setLinkedin(e.target.value)} value={linkedin} />
+        </div>
+        <div>
+          <label htmlFor="">Site web externe</label>
+          <input type="text" onChange={(e) => setWebsite(e.target.value)} value={website} />
+        </div>
+        <div>
+          <label htmlFor="">Biographie</label>
+          <textarea name="" onChange={(e) => setBio(e.target.value)} value={bio}></textarea>
+          {/* <input type="text" onChange={(e) => setBio(e.target.value)} value={bio}/> */}
         </div>
         <input type="submit" value="Enregistrer" />
         <button type="button" onClick={() => setModificationMode(false)}>Annuler</button>

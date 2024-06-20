@@ -35,23 +35,23 @@ export function getFirstCandidats(email: string): Promise<any[]> {
   .then(results => results[0]);
 }
 
-// export function updateProfile(email: string, nom: string, prenom: string, telephone: string, pays: string,): Promise<any[]> {
-//   return query(`UPDATE candidat 
-//     SET nom = '${nom}', prenom = '${prenom}', telephone = '${telephone}', pays = '${pays}'
-//     WHERE email = '${email}';`)
-// }
+type updateProfileProps = {nom: string, prenom: string, telephone: string, pays: string, secteur_activite: string, biographie: string, linkedin: string, site_web: string, email: string}
+export function updateProfile({nom, prenom, telephone, pays, secteur_activite, biographie, linkedin, site_web, email} : updateProfileProps): Promise<any[]> {
 
-type updateProfileProps = {nom: string, prenom: string, telephone: string, pays: string, email: string}
-export function updateProfile({nom, prenom, telephone, pays, email} : updateProfileProps): Promise<any[]> {
-  // const sql = `
-  //   UPDATE candidat 
-  //   SET nom = $1::text, prenom = $2::text, telephone = $3::text, pays = $4::text
-  //   WHERE candidat.email = $5
-  // `;
-  const sql = `UPDATE candidat 
-  SET nom = $1, prenom = $2, telephone = $3, pays = $4
-  WHERE email = $5;`
+  const sql = 
+    `UPDATE candidat 
+    SET nom = $1, prenom = $2, telephone = $3, pays = $4, secteur_activite = $5, biographie = $6, linkedin = $7, site_web = $8
+    WHERE email = $9;`
 
-  const values = [nom, prenom, telephone, pays, email];
+  const values = [nom, prenom, telephone, pays, secteur_activite, biographie, linkedin, site_web, email];
   return query(sql, values);
 }
+
+// REQUETE POUR AJOUTER COLONNES DANS LA TABLE CANDIDAT
+// ALTER TABLE candidat
+// ADD secteur_activite VARCHAR(255),
+// ADD biographie TEXT,
+// ADD linkedin VARCHAR(255),
+// ADD site_web VARCHAR(255),
+// ADD cv VARCHAR(255),
+// ADD photo_profil VARCHAR(255);
