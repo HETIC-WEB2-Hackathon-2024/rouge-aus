@@ -90,7 +90,7 @@ export default function Navbar() {
                         <div className="icon-container" title="Déconnexion"
                              onClick={() =>
                                  logout({
-                                     logoutParams: {returnTo: window.location.origin}
+                                     logoutParams: {returnTo: "https://rouge.aus.floless.fr/"}
                                  })}>
                             <LogOut/>
                         </div>
