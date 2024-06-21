@@ -58,8 +58,7 @@ export function Dashboard() {
             });
         };
 
-        // if(!state.user){
-        if (state && !state.user) {
+        if(!state?.user){
             setContext()
         }
 

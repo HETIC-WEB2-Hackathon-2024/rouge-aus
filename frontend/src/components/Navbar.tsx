@@ -2,7 +2,8 @@ import {useLocation, useNavigate} from "react-router";
 import {User, LogOut, CircleUser, CircleHelp} from "lucide-react"
 import React, {useEffect, useRef, useState} from "react";
 import ButtonComponent from "./ButtonComponent.tsx";
-
+import MenuIcon from '@mui/icons-material/Menu';
+import ClearSharpIcon from '@mui/icons-material/ClearSharp';
 import {useAuth0} from "@auth0/auth0-react";
 import Logo from "./Logo.tsx";
 
@@ -61,12 +62,42 @@ export default function Navbar() {
     const handleProfileState = () => {
         setProfileState(!profileState)
     }
-
+   const [open, setOpen] = useState(false);
 
     return (
         <div className="navbar">
             <Logo />
+            <div className="menu">
+                {open ?
+                    <ClearSharpIcon onClick={() => setOpen(false)} style={{width: '30px', height: '30px'}}/>
+                    :
+                    <MenuIcon onClick={() => setOpen(true)} style={{width: '30px', height: '30px'}}/>
+                }
+            </div>
+            {
+                open && <div className="menu_mobile">
+                    <ul>
+                        {navbarList.map((el, index) => {
+                            return (
+                                <div className="list-item" key={index}>
+                                    <li onClick={() => {
+                                        setOpen(false);
+                                        navigation(el.path)
+                                    
+                                    }} className={checkCurrentPath(el.path)}>
+                                        {el.name}
+                                    </li>
+                                    <div className={checkCurrentPath(el.path)}>
+                                    </div>
+                                </div>
+                            )
+                        })}
+                    </ul>
+                </div>
+
+            }
             <div className="navlist">
+            
                 <ul>
                     {navbarList.map((el, index) => {
                         return (
