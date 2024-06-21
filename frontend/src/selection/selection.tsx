@@ -14,16 +14,9 @@ export default function Selection() {
     async function callApi() {
       try {
         const token = await getAccessTokenSilently();
-        console.log('token in sleection', token)
-        console.log(user.email)
         const userInfos = await authenticatedPost(token, "/v1/candidats", {email: user?.email})
-        console.log('userInfos in sleection', userInfos)
-
         const document = await authenticatedPost(token, "/v1/getfavoris", {user_id: userInfos?.id});
-        console.log('document in sleection', document)
-
         setData(document);
-        console.log(document);
       } catch (error) {
         setError(`Error from web service: ${error}`);
       } finally {
@@ -44,7 +37,7 @@ export default function Selection() {
           {data &&
             data.length > 0 &&
             data.map((offre, index) => (
-              <DashboardBox offre={offre} key={index} />
+              <DashboardBox offre={offre} key={index} favorite={true}/>
             ))}
         </ul>
       )}

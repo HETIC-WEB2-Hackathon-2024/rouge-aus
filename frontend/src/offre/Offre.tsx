@@ -1,7 +1,7 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { Box } from "@mui/material";
 import React from "react";
-import { authenticatedGet } from "../auth/helper";
+import {authenticatedGet, authenticatedPost} from "../auth/helper";
 import "./offre.scss";
 import { DashboardBox } from "../components/cards/DashboardBox";
 import Alert from '@mui/material/Alert';
@@ -11,7 +11,7 @@ import { SearchComponent } from "../components/Search";
 
 
 export function Offre() {
-  const { getAccessTokenSilently } = useAuth0();
+  const { getAccessTokenSilently, user } = useAuth0();
   const [loading, setLoading] = React.useState(true);
   const [data, setData] = React.useState<any[]>([]);
   const [searchData, setSearchData] = React.useState<any[]>([]);
@@ -23,14 +23,20 @@ export function Offre() {
   const [totalPages, setTotalPages] = React.useState<number>(0);
   const [searchLieu, setSearchLieu] = React.useState<string>("");
   const [searchContrat, setSearchContrat] = React.useState<string>("");
+  const [favoriteOffreList, setFavoriteOffreList] = React.useState(null);
+  const [changes, setChanges] = React.useState(false)
   React.useEffect(() => {
     async function callApi() {
       try {
         setError(null);
         setLoading(true);
         window.scrollTo(0, 0);
-        const token = await getAccessTokenSilently(); 
+        const token = await getAccessTokenSilently();
+        const userInfos = await authenticatedPost(token, "v1/candidats/", {email: user?.email} )
         const document = await authenticatedGet(token, `/v1/offres/${actualPage}/16`);
+        const favoriteList = await authenticatedPost(token, "v1/getfavoris/", {user_id : userInfos.id})
+          console.log('favoriteList', favoriteList)
+        setFavoriteOffreList(favoriteList)
         setData(document.offres);
         setTotalPages(document.NumberPageTotal);
         console.log(document)
@@ -41,7 +47,11 @@ export function Offre() {
       }
     }
     callApi();
-  }, [getAccessTokenSilently, actualPage]);
+  }, [getAccessTokenSilently, actualPage, changes]);
+
+    const handleChange = () => {
+        setChanges(prevState => !prevState);
+    };
 
 
 
@@ -83,6 +93,12 @@ export function Offre() {
     setActualPage(value);
   }
 
+    const isFavorite = (offreId: number) => {
+        // Use the some() method to check if any element in favoriteOffreList matches the offreId
+        const isFav = favoriteOffreList?.some((el) => el.id === offreId);
+        return isFav;
+    }
+
     console.log("la requête a abouti");
     return (
       <Box>
@@ -99,19 +115,19 @@ export function Offre() {
           </div>
            {
             data.map((offre, index) => {
-              return <DashboardBox key={index} offre={offre}/>
+              return <DashboardBox key={index} offre={offre} favorite={isFavorite(offre.id)} handleChange={handleChange}/>
             })
            }
           </> 
            : searchData.length > 0 ? searchData.map((offre, index) => {
             return(
             
-              <DashboardBox key={index} offre={offre} />
+              <DashboardBox key={index} offre={offre} favorite={isFavorite(offre.id)} handleChange={handleChange}/>
             
             )
            
           }) : data.length > 0 ? data.map((offre, index) => {
-            return <DashboardBox key={index} offre={offre} />
+            return <DashboardBox key={index} offre={offre} favorite={isFavorite(offre.id)} handleChange={handleChange}/>
           }) : <SimpleBackdrop />
 
         }

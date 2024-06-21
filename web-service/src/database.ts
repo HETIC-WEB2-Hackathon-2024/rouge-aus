@@ -121,7 +121,13 @@ export function searchOffres(search: string, actualPage: number, lieu: string, c
 
   export async function updateFavoris(data: any) {
     try {
-      const addFavoris = await query(`INSERT INTO favoris (id_offre, id_candidat) VALUES ($1, $2)`, [data.offre_id, data.user_id]);
+      const favorisList = await query(`SELECT (id_offre, id_candidat)  FROM favoris WHERE VALUES ($1), [data.id_offre, data.user_id]`)
+
+      if(favorisList){
+        const addFavoris = await query(`INSERT INTO favoris (id_offre, id_candidat) VALUES ($1, $2)`, [data.offre_id, data.user_id]);
+      }else{
+        const deleteFavoris = await query(`DELETE from favoris WHERE (id_offre, id_candidat)`, [data.offre_id, data.user_id]);
+      }
 
     } catch (errror) {
       return errror

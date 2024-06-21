@@ -12,6 +12,7 @@ import { Auth0Provider } from "@auth0/auth0-react";
 import { Authenticated } from "./auth/Authenticated.tsx";
 import {AuthProvider} from "./context/AuthContext.tsx";
 import { OffreProvider } from "./context/OffreContext.tsx";
+import Selection from "./selection/selection.tsx"
 
 
 
