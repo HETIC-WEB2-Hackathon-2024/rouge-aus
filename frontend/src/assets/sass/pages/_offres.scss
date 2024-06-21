@@ -15,12 +15,12 @@
 .search_container{
     background: var(--primary-white);
     display: flex;
-    gap: 1.6rem;
-
+    align-items: center;
     border-radius: 0.8rem;
     border: 1px solid var(--primary-grey);
     width: 100%;
-    max-width: 400px;
+    max-width: 90%;
+    max-height: 50px;
     transition: all 0.3s ease;
     margin-top: 6em;
     margin-left: auto;
@@ -40,6 +40,7 @@
         }
     }
     input{
+        height: 100%;
         border: none;
         width: 100%;
         font-size: 1.6rem;
@@ -48,7 +49,12 @@
         background-color: transparent;
         color: var(--primary-black);
         font-family: 'nunito sans';
+        border-left: 1px solid var(--primary-grey);
 
+
+        &.lieu{
+           background-color: rgb(249, 248, 248);
+        }
         &::placeholder{
             color: var(--light-grey);
         }
@@ -77,7 +83,40 @@
     }
     
 }
-
+.no_result{
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: var(--primary-black);
+    font-family: 'nunito sans';
+    margin-top: 3.2rem;
+    text-align: center;
+    width: 100vw;
+    position: absolute;
+    top: 18%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.secteur_choice{
+    display: flex;
+    gap: 1.6rem;
+    margin-top: 3.2rem;
+    margin-left: 2rem;
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: var(--primary-black);
+    font-family: 'nunito sans';
+    .secteur{
+        padding: 1.6rem;
+        background-color: var(--light-green);
+        color: var(--dark-green) !important;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        &:hover{
+            background-color: var(--green);
+            color: var(--primary-white);
+        }
+    }
+}
 @keyframes outlineExplosion {
     0%{
         outline: 2px solid rgba(0, 128, 0, 0.144);
@@ -91,4 +130,23 @@
         outline: 2px solid var(--primary-grey);
         outline-offset: 5px;
     }
+}
+
+@media screen and (max-width: 680px){
+    .search_container{
+       flex-direction: column;
+       max-height: max-content;
+
+         input{
+              border: 1px solid var(--primary-grey);
+         }
+
+         button{
+                width: 100%;
+         }
+    }
+    .secteur_choice{
+        margin-left: 0;
+    }
+    
 }
