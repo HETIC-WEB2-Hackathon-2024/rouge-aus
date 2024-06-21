@@ -6,6 +6,7 @@ import { DashboardBox } from "../components/cards/DashboardBox";
 import RecruteBox from "../components/cards/RecruteBox";
 import {useAuth} from "../context/AuthContext";
 import CompleteBox from "../components/cards/profilCompleteBox.tsx";
+
 export function Dashboard() {
     const { getAccessTokenSilently } = useAuth0();
     const [loading, setLoading] = React.useState(true);

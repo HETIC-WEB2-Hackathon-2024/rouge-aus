@@ -21,22 +21,22 @@ export function Authenticated({children}: React.PropsWithChildren) {
     const [isOnLandingPage, setIsOnLandingPage] = React.useState(false);
     const location = useLocation();
     const navigate = useNavigate();
-    React.useEffect(() => {
-        setTimeout(() => {
-            if(user && state.user?.email){
+    // React.useEffect(() => {
+    //     setTimeout(() => {
+    //         if(user && state.user?.email){
 
-                navigate('/layout')
-            }else{
-                loginWithRedirect(
-                    {
-                        authorizationParams: {
-                            redirect_uri: `http://localhost:5173/layout`
-                        }
-                    }
-                );
-            }
-        }, 19000)
-    },);
+    //             navigate('/layout')
+    //         }else{
+    //             loginWithRedirect(
+    //                 {
+    //                     authorizationParams: {
+    //                         redirect_uri: `http://localhost:5173/layout`
+    //                     }
+    //                 }
+    //             );
+    //         }
+    //     }, 19000)
+    // },);
 
     return  <>{children}</> 
 }
