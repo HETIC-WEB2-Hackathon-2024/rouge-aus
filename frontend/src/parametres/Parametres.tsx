@@ -1,7 +1,7 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { useState, useEffect } from "react";
 import { authenticatedPost } from "../auth/helper";
-import { useAppContext } from "../context/AppContext";
+import { useAuth } from "../context/AuthContext";
 
 export function Parametres() {
   const { getAccessTokenSilently, user } = useAuth0();
@@ -9,7 +9,7 @@ export function Parametres() {
   const [data, setData] = useState<any | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [modificationMode, setModificationMode] = useState(false);
-  const { state } = useAppContext()
+  const { state } = useAuth()
 
   useEffect(() => {
     async function callApi() {
