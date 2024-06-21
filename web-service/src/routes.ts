@@ -7,7 +7,7 @@ type SearchType = "metier" | "commune" | "contrat" | "default";
 router.post("/v1/candidats", async function (req, res) {
 try {
     const { email } = req.body
-    // recuperer le candidat depuis la bdd qui correspond au mail connecté
+    // recuperer le candidat depuis ma base de donne qui correspond au mail dans le body
     const candidat = await getFirstCandidats(email)
     res.send(candidat)
 } catch (error) {
