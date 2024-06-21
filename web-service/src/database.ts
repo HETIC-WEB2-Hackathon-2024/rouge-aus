@@ -117,39 +117,72 @@ export function searchOffres(search: string, actualPage: number, lieu: string, c
   params.push((actualPage - 1) * 10);
 
   return query(baseQuery, params);
+}
 
-export async function updateFavoris(data: any){
-  try{
-    const addFavoris = await query(`INSERT INTO favoris (id_offre, id_candidat) VALUES ($1, $2)`, [data.offre_id, data.user_id]);
+  export async function updateFavoris(data: any) {
+    try {
+      const addFavoris = await query(`INSERT INTO favoris (id_offre, id_candidat) VALUES ($1, $2)`, [data.offre_id, data.user_id]);
 
-  }catch(errror){
-    return errror
+    } catch (errror) {
+      return errror
+    }
   }
-}
 
-export function searchOffres(search: string): Promise<any[]> {
-  return query(`SELECT * FROM offre WHERE titre_emploi LIKE $1 OR lieu LIKE $1 OR contrat LIKE $1 limit 20`, [search]);
-}
 
-export function getFirstCandidats(email: string): Promise<any[]> {
-  return query(`SELECT * FROM candidat WHERE candidat.email = $1 LIMIT 1`, [email])
-    .then(results => results.length > 0 ? results[0] : null);
-}
+  export function getFirstCandidats(email: string): Promise<any[]> {
+    return query(`SELECT * FROM candidat WHERE candidat.email = $1 LIMIT 1`, [email])
+        .then(results => results.length > 0 ? results[0] : null);
+  }
 
-export function getSearchSuggestions(search: string, type: SearchType): Promise<any[]> {
-  const item = tableMap[type] || tableMap["default"];
-  const sql = `SELECT ${item.column} FROM ${item.table} WHERE ${item.column} LIKE $1 LIMIT 5`;
-  const params = [`%${search}%`];
-  return query(sql, params);
-}
-export function getSecteurs(): Promise<any[]> {
-  return query(`
+  export function getSearchSuggestions(search: string, type: SearchType): Promise<any[]> {
+    const item = tableMap[type] || tableMap["default"];
+    const sql = `SELECT ${item.column} FROM ${item.table} WHERE ${item.column} LIKE $1 LIMIT 5`;
+    const params = [`%${search}%`];
+    return query(sql, params);
+  }
+
+  export function getSecteurs(): Promise<any[]> {
+    return query(`
     SELECT DISTINCT secteur.* 
     FROM secteur 
     JOIN metier ON secteur.id = metier.secteur_id;
   `);
-}
+  }
 
-export async function getFavoris(user_id: any){
-  return query(`SELECT * FROM offre WHERE id IN (SELECT id_offre FROM favoris WHERE id_candidat = $1)`, [user_id])
-}
+  export async function getFavoris(user_id: any) {
+    return query(`SELECT * FROM offre WHERE id IN (SELECT id_offre FROM favoris WHERE id_candidat = $1)`, [user_id])
+  }
+
+  type updateProfileProps = {
+    nom: string,
+    prenom: string,
+    telephone: string,
+    pays: string,
+    secteur_activite: string,
+    biographie: string,
+    linkedin: string,
+    site_web: string,
+    email: string
+  }
+
+  export function updateProfile({
+                                  nom,
+                                  prenom,
+                                  telephone,
+                                  pays,
+                                  secteur_activite,
+                                  biographie,
+                                  linkedin,
+                                  site_web,
+                                  email
+                                }: updateProfileProps): Promise<any[]> {
+
+    const sql =
+        `UPDATE candidat 
+    SET nom = $1, prenom = $2, telephone = $3, pays = $4, secteur_activite = $5, biographie = $6, linkedin = $7, site_web = $8
+    WHERE email = $9;`
+
+    const values = [nom, prenom, telephone, pays, secteur_activite, biographie, linkedin, site_web, email];
+    return query(sql, values);
+
+  }

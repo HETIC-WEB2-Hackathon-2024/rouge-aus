@@ -7,6 +7,8 @@ import Lottie from "lottie-react"
 import LottieArrow from "../assets/lottie/Arrow-lottie.json"
 import CursorSvg from "../assets/svg/cursor.svg"
 import CircleLottie from "../assets/lottie/Circle-lottie.json"
+import {useAuth} from "../context/AuthContext.tsx";
+import {useEffect} from "react";
 
 export default function LandingPage() {
     const title: string = 'Cherchez. Postulez. '
@@ -87,6 +89,11 @@ export default function LandingPage() {
         ]
     ];
 
+    const { state } = useAuth()
+    useEffect(() => {
+        console.log('state', state)
+    }, []);
+
     const hiredTips: HiredTipProps = [
         {
             icon: User,
@@ -120,7 +127,6 @@ export default function LandingPage() {
     ]
 
     const handleActive = (index: number) => {
-        console.log(index)
         return index % 3 !== 0;
     }
 

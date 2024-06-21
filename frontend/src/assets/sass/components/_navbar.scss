@@ -151,3 +151,28 @@
     }
   }
 }
+
+.aus-logo {
+  width: 60px;
+  height: auto;
+  position: fixed;
+  top: 10px;
+  left: 25px;
+}
+
+@media (max-width: 650px) {
+  .aus-logo {
+    width: 45px;
+    height: auto;
+    position: fixed;
+    top: 16px;
+    left: 25px;
+  }
+}
+
+@media (max-width: 560px) {
+  .aus-logo {
+    display: none;
+    visibility: hidden;
+  }
+}
