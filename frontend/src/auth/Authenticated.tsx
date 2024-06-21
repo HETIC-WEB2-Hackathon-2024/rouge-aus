@@ -38,5 +38,5 @@ export function Authenticated({children}: React.PropsWithChildren) {
         }, 19000)
     },);
 
-    return isOnLandingPage ? <>{children}</> : null
+    return  <>{children}</> 
 }
