@@ -48,13 +48,18 @@ export function Dashboard() {
             const token = await getAccessTokenSilently();
             const userInfos = await authenticatedPost(token, "v1/candidats", { email: user?.email });
             console.log(token,userInfos)
-            setState({
-                user:userInfos,
-                token:token,
-            })
+            // setState({
+            //     user:userInfos,
+            //     token:token,
+            // })
+            setState && setState({
+              user: userInfos,
+              token: token,
+            });
         };
 
-        if(!state.user){
+        // if(!state.user){
+        if (state && !state.user) {
             setContext()
         }
 
@@ -66,13 +71,13 @@ export function Dashboard() {
   ) : (
     <>
       <div className="titre_dashboard">
-        <h1>Hello {state.user?.name}</h1>
+        <h1>Hello</h1>
         <h2>Bienvenue dans votre espace stagiaire</h2>
       </div>
 
       <Box
         className="dashboard_container"
-        onClick={() => console.log("state", state.user)}>
+        onClick={() => console.log("state", state?.user)}>
         {error ? (
           `Dashboard: response from API (with auth) ${error}`
         ) : (

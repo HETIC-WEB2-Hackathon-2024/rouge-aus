@@ -10,7 +10,7 @@ export function Authenticated({ children }: React.PropsWithChildren) {
         } else if (!user && !isLoading){
             loginWithRedirect({
                 authorizationParams: {
-                    redirect_uri: `http://localhost:5173/dashboard`
+                    redirect_uri: `https://rouge.aus.floless.fr/dashboard`
                 }
             })
         }

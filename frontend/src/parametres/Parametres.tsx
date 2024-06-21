@@ -1,15 +1,12 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { useState, useEffect } from "react";
 import { authenticatedPost } from "../auth/helper";
-import { useAuth } from "../context/AuthContext";
 
 export function Parametres() {
   const { getAccessTokenSilently, user } = useAuth0();
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState<any | null>(null);
-  const [error, setError] = useState<string | null>(null);
   const [modificationMode, setModificationMode] = useState(false);
-  const { state } = useAuth()
 
   useEffect(() => {
     async function callApi() {
@@ -18,16 +15,13 @@ export function Parametres() {
         const candidat = await authenticatedPost(token, "/v1/candidats", { email: user?.email });
         setData(candidat);
       } catch (error) {
-        setError(`Error from web service: ${error}`);
+        console.log(`Error from web service: ${error}`);
       } finally {
         setLoading(false);
       }
     }
     callApi();
   }, [getAccessTokenSilently, user?.email]);  
-  
-  const img1 = "1955LGnt_8pX873ib0KA3ktA5m1GaZInt";
-  const link = `https://drive.google.com/file/d/${img1}/view`;
 
   return loading ? (
     <p>Un instant</p>
@@ -80,7 +74,6 @@ function Form({ setModificationMode, data }: { setModificationMode: (value: bool
   const [bio, setBio] = useState(data?.biographie || "");
   const [linkedin, setLinkedin] = useState(data?.linkedin || "");
   const [website, setWebsite] = useState(data?.site_web || "");
-  // const [birthDate, setBirthDate] = useState(data?.date_naissance || "");
 
   const submitForm = (e: any) => {
     e.preventDefault();
@@ -94,7 +87,6 @@ function Form({ setModificationMode, data }: { setModificationMode: (value: bool
       bio,
       linkedin,
       website
-      // birthDate: birthDate,
     };
     console.log("Données profil : ", profileData);
     sendProfileData(profileData);

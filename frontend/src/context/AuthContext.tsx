@@ -1,29 +1,13 @@
-import React, { useEffect, useReducer, useState } from "react";
-import { useAuth0 } from "@auth0/auth0-react";
-import { authenticatedPost } from "../auth/helper.ts";
+import React, { useState } from "react";
 
 type AppState = {
     user: object | null;
     token: string | null;
 };
 
-type User = object | null;
-
-type Action =
-    | { type: 'SET_USER'; payload: User }
-    | { type: 'SET_TOKEN'; payload: string | null };
-
-
 type AppContextProps = {
     state: AppState;
     setState: React.Dispatch<React.SetStateAction<AppState>>;
-};
-
-
-
-const initialState: AppState = {
-    user: null,
-    token: null,
 };
 
 export const AuthContext = React.createContext<AppContextProps | undefined>(undefined);
@@ -36,16 +20,6 @@ export function useAuth() {
     return context;
 }
 
-function authReducer(state: AppState, action: Action): AppState {
-    switch (action.type) {
-        case 'SET_USER':
-            return { ...state, user: action.payload };
-        case 'SET_TOKEN':
-            return { ...state, token: action.payload };
-        default:
-            return state;
-    }
-}
 type AuthProviderProps = {
     children: React.ReactNode;
 };
