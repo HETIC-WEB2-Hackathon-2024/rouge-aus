@@ -9,6 +9,7 @@ export interface CardDataProps {
 export interface ButtonComponentProps {
     text: string,
     className: string,
+    path: string
 }
 
 export interface CardData {
