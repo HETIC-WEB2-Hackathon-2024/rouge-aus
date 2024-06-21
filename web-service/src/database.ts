@@ -1,70 +1,141 @@
 import pg from "pg";
+type SearchType = "metier" | "commune" | "contrat" | "default";
 
+interface TableMapItem {
+  table: string;
+  column: string;
+}
+
+interface TableMap {
+  [key: string]: TableMapItem;
+}
+
+const tableMap: TableMap = {
+  metier: { table: "metier", column: "metier" },
+  commune: { table: "commune", column: "nom_commune" },
+  contrat: { table: "offre", column: "type_contrat" },
+  default: { table: "offre", column: "titre_emploi" }
+};
 const pool = new pg.Pool({
   user: process.env.RDB_USER || "aus-user",
   database: process.env.RDB_DATABASE || "aus",
   password: process.env.RDB_PASSWORD || "aus2025",
-  port: +(process.env.RDB_PORT || 5433),
+  port: parseInt(process.env.RDB_PORT || "5433", 10),
   host: process.env.RDB_HOST || "localhost",
 });
 
-process.on("exit", function () {
+process.on("exit", () => {
   pool.end();
 });
 
-/**
- * Sends SQL statement to the database and returns the result
- * @param sqlStatement a string containing the SQL statement
- * @returns an array of rows
- */
-async function query(sqlStatement: string, values?: (string | Date)[]): Promise<any[]> {
-  let rows = [];
+export async function query(sqlStatement: string, params?: any[]): Promise<any[]> {
   const client = await pool.connect();
-  const response = await client.query(sqlStatement, values);
-  rows = response.rows;
-  client.release();
-  return rows;
-}
-
-export function getFirstOffres(count: number = 3): Promise<any[]> {
-  return query(`SELECT * FROM offre JOIN commune ON offre.commune_id = commune.id JOIN metier ON offre.metier_id = metier.id LIMIT ${count}`);
-}
-
-export function getOffreDashboard(count:number=4): Promise<any[]> {
-  //delectionner tout les offre joindre avec le nom de la comunne le metier a partir de leur id dans la table offre
-
-  return query(`SELECT * FROM offre JOIN commune ON offre.commune_id = commune.id JOIN metier ON offre.metier_id = metier.id LIMIT ${count}`);
-}
-
-
-export async function getTopMetier(): Promise<any[]> {
   try {
-    const topSecteurs = await query(`SELECT secteur_id, COUNT(secteur_id) FROM metier GROUP BY secteur_id ORDER BY COUNT(secteur_id) DESC LIMIT 3`);
-    const topMetier: any = []
-
-    for (const secteur of topSecteurs) {
-      const metiers = await query(`SELECT metier.metier
-      FROM metier 
-      JOIN secteur ON metier.secteur_id = secteur.id 
-      WHERE secteur.id = ${secteur.secteur_id} ORDER BY metier.id DESC LIMIT 3
-      `);
-      const secteurNameRequest = await query(`SELECT secteur FROM secteur WHERE id = ${secteur.secteur_id}`);
-      const secteurName = secteurNameRequest[0].secteur;
-
-
-      topMetier.push({secteur: secteurName, nombre_offres: secteur.count, metiers: metiers});  
-    }
-
-    return topMetier;  
+    const response = await client.query(sqlStatement, params);
+    return response.rows;
   } catch (error) {
-    console.error('Failed to fetch top sectors and jobs', error);
-    throw error;  
+    console.error('Query failed: ', error);
+    throw error;
+  } finally {
+    client.release();
   }
 }
 
+export function getFirstOffres(actualPage: number = 1, count: number = 10): Promise<any[]> {
+  const offset = (actualPage - 1) * count;
+  return query(`
+    SELECT titre_emploi, commune_id, metier_id, offre.id, description_courte, type_contrat 
+    FROM offre 
+    JOIN commune ON offre.commune_id = commune.id 
+    JOIN metier ON offre.metier_id = metier.id 
+    LIMIT $1 OFFSET $2
+  `, [count, offset]);
+}
+
+export function getOffreDashboard(count: number = 4): Promise<any[]> {
+  return query(`
+    SELECT titre_emploi, commune_id, metier_id, offre.id, description_courte, type_contrat  FROM offre 
+    JOIN commune ON offre.commune_id = commune.id 
+    JOIN metier ON offre.metier_id = metier.id 
+    LIMIT $1
+  `, [count]);
+}
+
+export async function getTopMetier(): Promise<any[]> {
+  try {
+    const topSecteurs = await query(`
+      SELECT secteur_id, COUNT(secteur_id) as count 
+      FROM metier 
+      GROUP BY secteur_id 
+      ORDER BY count DESC LIMIT 3
+    `);
+    const topMetier: any[] = [];
+
+    for (const secteur of topSecteurs) {
+      const metiers = await query(`
+        SELECT metier.metier 
+        FROM metier 
+        JOIN secteur ON metier.secteur_id = secteur.id 
+        WHERE secteur.id = $1 
+        ORDER BY metier.id DESC LIMIT 3
+      `, [secteur.secteur_id]);
+      const secteurNameRequest = await query(`SELECT secteur FROM secteur WHERE id = $1`, [secteur.secteur_id]);
+      const secteurName = secteurNameRequest[0].secteur;
+
+      topMetier.push({ secteur: secteurName, nombre_offres: secteur.count, metiers });
+    }
+    return topMetier;
+  } catch (error) {
+    console.error('Failed to fetch top sectors and jobs', error);
+    throw error;
+  }
+}
+
+export function searchOffres(search: string, actualPage: number, lieu: string, contrat: string): Promise<any[]> {
+  let baseQuery = `SELECT * FROM offre WHERE `;
+  const conditions = [];
+  const params = [];
+
+  if (search) {
+    conditions.push(`titre_emploi LIKE $1`);
+    params.push(`%${search}%`);
+  }
+  if (lieu) {
+    conditions.push(`lieu LIKE $${params.length + 1}`);
+    params.push(`%${lieu}%`);
+  }
+  if (contrat) {
+    conditions.push(`contrat LIKE $${params.length + 1}`);
+    params.push(`%${contrat}%`);
+  }
+
+  if (conditions.length === 0) { 
+    return getFirstOffres(actualPage);
+  }
+
+  baseQuery += conditions.join(' OR ') + ` LIMIT 10 OFFSET $${params.length + 1}`;
+  params.push((actualPage - 1) * 10);
+
+  return query(baseQuery, params);
+}
+
 export function getFirstCandidats(email: string): Promise<any[]> {
-  return query(`SELECT * FROM candidat WHERE candidat.email = '${email}' LIMIT 1`)
-  .then(results => results[0]);
+  return query(`SELECT * FROM candidat WHERE candidat.email = $1 LIMIT 1`, [email])
+    .then(results => results.length > 0 ? results[0] : null);
+}
+
+export function getSearchSuggestions(search: string, type: SearchType): Promise<any[]> {
+  const item = tableMap[type] || tableMap["default"]; 
+  const sql = `SELECT ${item.column} FROM ${item.table} WHERE ${item.column} LIKE $1 LIMIT 5`;
+  const params = [`%${search}%`];
+  return query(sql, params);
+}
+export function getSecteurs(): Promise<any[]> {
+  return query(`
+    SELECT DISTINCT secteur.* 
+    FROM secteur 
+    JOIN metier ON secteur.id = metier.secteur_id;
+  `);
 }
 
 type updateProfileProps = {nom: string, prenom: string, telephone: string, pays: string, secteur_activite: string, biographie: string, linkedin: string, site_web: string, email: string}
@@ -78,12 +149,3 @@ export function updateProfile({nom, prenom, telephone, pays, secteur_activite, b
   const values = [nom, prenom, telephone, pays, secteur_activite, biographie, linkedin, site_web, email];
   return query(sql, values);
 }
-
-// REQUETE POUR AJOUTER COLONNES DANS LA TABLE CANDIDAT
-// ALTER TABLE candidat
-// ADD secteur_activite VARCHAR(255),
-// ADD biographie TEXT,
-// ADD linkedin VARCHAR(255),
-// ADD site_web VARCHAR(255),
-// ADD cv VARCHAR(255),
-// ADD photo_profil VARCHAR(255);

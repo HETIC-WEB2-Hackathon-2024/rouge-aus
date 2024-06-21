@@ -33,6 +33,7 @@ export async function authenticatedPost<T>(
     headers,
     body: JSON.stringify(body),
   });
+
   const data = await response.json();
   return data;
 }

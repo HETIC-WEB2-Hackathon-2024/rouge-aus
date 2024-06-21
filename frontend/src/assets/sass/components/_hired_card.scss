@@ -3,7 +3,7 @@
 .hired-card-component {
   display: flex;
   flex-direction: column;
-  padding: 3.2rem 2.4rem;
+  padding: 3.2rem 2.4rem 4rem;
   background-color: var(--primary-white);
   border: 1px solid var(--secondary-grey-grey);
   box-shadow: 0 -5px 10px var(--secondary-grey);
@@ -36,13 +36,13 @@
 
     .title{
       h1{
-        @include u.font("Poppins", 700, 1.8rem, var(--primary-black))
+        @include u.font("Nunito Sans", 700, 1.8rem, var(--primary-black))
       }
     }
 
     .paragraph{
       p{
-        @include u.font("Poppins", 400, 1.2rem, var(--secondary-black))
+        @include u.font("Nunito Sans", 400, 1.2rem, var(--secondary-black))
       }
     }
   }

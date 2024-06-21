@@ -24,7 +24,10 @@ export function Parametres() {
       }
     }
     callApi();
-  }, [getAccessTokenSilently, user?.email]);
+  }, [getAccessTokenSilently, user?.email]);  
+  
+  const img1 = "1955LGnt_8pX873ib0KA3ktA5m1GaZInt";
+  const link = `https://drive.google.com/file/d/${img1}/view`;
 
   return loading ? (
     <p>Un instant</p>

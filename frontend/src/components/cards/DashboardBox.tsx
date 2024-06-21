@@ -1,5 +1,5 @@
-
-export function DashboardBox({offre,key}: {offre: any, key: any}) {
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+export function DashboardBox({offre,key}: {offre: any, key: number}) {
     const description_courting = (text: string) => {
         if (text.length > 100) {
             return text.slice(0, 100) + "...";
@@ -7,7 +7,10 @@ export function DashboardBox({offre,key}: {offre: any, key: any}) {
         return text;
     }
   return (
-    <div key={key} className="box_offre">
+    <div key={key} className="box_offre" style={{animationDelay: `${key * 0.1}s`}} id={offre.id}>
+        <div className="favorite">
+            <FavoriteBorderIcon className="icon_favorite" />
+        </div>
         <h2 className="titre_offre">{offre.titre_emploi}</h2>
         <p className="description_offre">{description_courting(
             offre.description_courte
@@ -24,4 +27,3 @@ export function DashboardBox({offre,key}: {offre: any, key: any}) {
     </div>
   );
 }
-
