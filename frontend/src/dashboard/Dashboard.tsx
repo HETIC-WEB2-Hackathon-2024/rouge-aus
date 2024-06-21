@@ -48,12 +48,15 @@ export function Dashboard() {
             const token = await getAccessTokenSilently();
             const userInfos = await authenticatedPost(token, "v1/candidats", { email: user?.email });
             console.log(token,userInfos)
-            setState?({
-                user:userInfos,
-                token:token,
-            })
-            :null
-        }
+            // setState({
+            //     user:userInfos,
+            //     token:token,
+            // })
+            setState && setState({
+              user: userInfos,
+              token: token,
+            });
+        };
 
         if(!state?.user){
             setContext()
