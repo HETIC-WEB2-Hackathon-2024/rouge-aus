@@ -4,6 +4,7 @@ import React, {useEffect, useRef, useState} from "react";
 import ButtonComponent from "./ButtonComponent.tsx";
 
 import {useAuth0} from "@auth0/auth0-react";
+import Logo from "./Logo.tsx";
 
 export default function Navbar() {
     const [profileState, setProfileState] = useState(false)
@@ -64,6 +65,7 @@ export default function Navbar() {
 
     return (
         <div className="navbar">
+            <Logo />
             <div className="navlist">
                 <ul>
                     {navbarList.map((el, index) => {
