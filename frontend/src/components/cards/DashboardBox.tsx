@@ -2,7 +2,6 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import {authenticatedPost} from "../../auth/helper.ts";
 import {useAuth0} from "@auth0/auth0-react";
-import { array } from '@amcharts/amcharts5';
 
 interface Offre {
     id: number,
@@ -27,7 +26,6 @@ export function DashboardBox({offre,key, favorite}: {offre: Offre, key: number, 
         const token = await getAccessTokenSilently()
         const userInfos = await authenticatedPost(token, "v1/candidats", {email : user?.email})
         console.log('userInfos', userInfos)
-        const favoris = authenticatedPost(token, "/v1/favoris", {user_id : userInfos.id, offre_id : offre.id})
     }
 
 

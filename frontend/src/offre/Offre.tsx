@@ -1,7 +1,7 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { Box } from "@mui/material";
 import React from "react";
-import {authenticatedGet, authenticatedPost} from "../auth/helper";
+import {authenticatedGet} from "../auth/helper";
 import "./offre.scss";
 import { DashboardBox } from "../components/cards/DashboardBox";
 import Alert from '@mui/material/Alert';
@@ -11,7 +11,7 @@ import { SearchComponent } from "../components/Search";
 
 
 export function Offre() {
-  const { getAccessTokenSilently, user } = useAuth0();
+  const { getAccessTokenSilently } = useAuth0();
   const [loading, setLoading] = React.useState(true);
   const [data, setData] = React.useState<any[]>([]);
   const [searchData, setSearchData] = React.useState<any[]>([]);

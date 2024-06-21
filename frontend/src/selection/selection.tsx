@@ -1,8 +1,7 @@
 import React from "react";
 import "./selection.scss";
 import { useAuth0 } from "@auth0/auth0-react";
-import {authenticatedGet, authenticatedPost} from "../auth/helper";
-import { Trash2 } from "lucide-react";
+import { authenticatedPost} from "../auth/helper";
 import { DashboardBox } from "../components/cards/DashboardBox";
 
 export default function Selection() {
