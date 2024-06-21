@@ -1,15 +1,16 @@
 import ButtonComponent from "../components/ButtonComponent.tsx";
 import TagComponent from "../components/TagComponent.tsx";
 import HiredCardComponent from "../components/HiredCardComponent.tsx";
-import { User, Search, FileText, Briefcase  } from 'lucide-react'
+import {User, Search, FileText, Briefcase} from 'lucide-react'
 import {HiredTipProps, jobsArray} from "../types.ts";
-import {useAuth} from "../context/AuthContext.tsx";
-import {useNavigate} from "react-router";
+import Lottie from "lottie-react"
+import LottieArrow from "../assets/lottie/Arrow-lottie.json"
+import CursorSvg from "../assets/svg/cursor.svg"
+import CircleLottie from "../assets/lottie/Circle-lottie.json"
 
 export default function LandingPage() {
-const {state} = useAuth();
-
-    const title: string = 'Cherchez. Postulez. Trouvez'
+    const title: string = 'Cherchez. Postulez. '
+    const titleSpan: string = 'Trouvez.'
     const getHiredTitle: string = 'Trouver Son Stage En '
     const getHiredSpan: string = '4 Etapes'
     const getHiredParagraph: string = "Quelques conseils pour postuler et être embauchés par l'entreprise de vos rêves"
@@ -99,33 +100,24 @@ const {state} = useAuth();
             color: '#922727',
             backgroundColor: '#FFDEDE',
 
-            title: 'Créer un compte',
-            paragraph: "Créer un compte et connecter vous afin de pouvoir profiter de toutes les fonctionnalités d'AUS et de pouvoir trouver votre futur job"
+            title: 'Chercher une offre',
+            paragraph: "Une fois que vous avez défini vos paramètres de recherche d'emploi, vous trouverez de nombreuses offres d'emploi liées à vos intérêts professionnels sur la page des offres et vous pourrez même filtrer certaines des meilleures offres d'emploi."
         },
         {
             icon: FileText,
             color: '#3C5B7C',
-            backgroundColor: '#688DB6',
-
-            title: 'Créer un compte',
-            paragraph: "Créer un compte et connecter vous afin de pouvoir profiter de toutes les fonctionnalités d'AUS et de pouvoir trouver votre futur job"
+            backgroundColor: '#ADC9FF',
+            title: 'Importer son CV',
+            paragraph: "Parmi les nombreuses offres d'emploi, sélectionnez celle qui correspond à votre profil et postulez immédiatement en téléchargeant votre CV et en répondant à quelques questions, le cas échéant."
         },
         {
             icon: Briefcase,
             color: '#E0B400',
             backgroundColor: '#FFE785',
-            title: 'Créer un compte',
-            paragraph: "Créer un compte et connecter vous afin de pouvoir profiter de toutes les fonctionnalités d'AUS et de pouvoir trouver votre futur job"
+            title: 'Trouver son stage',
+            paragraph: "Après avoir postulé, attendez un peu, organisez un entretien et, si tout se passe bien, soyez embauché plus rapidement qu'avec les méthodes d'embauche traditionnelles."
         }
     ]
-    const navigate = useNavigate();
-
-    // useEffect(() => {
-    //     console.log('state', state);
-    //  if(state.user?.email){
-    //     navigate('/dashboard')
-    //  }
-    // });
 
     const handleActive = (index: number) => {
         console.log(index)
@@ -135,20 +127,39 @@ const {state} = useAuth();
 
     const buttonText: string = "Parcourir les offres"
     return (
-        <div className="landing-page-section" onClick={() => console.log('test', state)}>
+        <div className="landing-page-section">
             <div className="main-section">
                 <div className="presentation">
+                    <div className="svg-message">
+                        <div className="svg">
+                            <img src={CursorSvg} alt="cursors"/>
+                        </div>
+                        <div className="message">
+                            <p>Lancez-vous !</p>
+                        </div>
+                    </div>
+
                     <div className="text-section">
                         <div className="title">
-                            <h1>{title.toUpperCase()}</h1>
+
+                            <h1>{title.toUpperCase()}
+                            </h1>
+                            <div>
+                                <span>{titleSpan.toUpperCase()}</span>
+                                <div className="circle-lottie">
+                                    <Lottie animationData={CircleLottie}/>
+                                </div>
+                            </div>
                         </div>
                         <div className="paragraph">
                             <p>{paragraph}</p>
                         </div>
                     </div>
 
-
-                    <ButtonComponent text={buttonText} className="lg"/>
+                    <div className="btn-lottie">
+                        <Lottie animationData={LottieArrow} className='lottie'/>
+                        <ButtonComponent text={buttonText} className="lg" path="/dashboard"/>
+                    </div>
                 </div>
                 <div className="jobs-container">
                     {jobs.map((el, index) => {

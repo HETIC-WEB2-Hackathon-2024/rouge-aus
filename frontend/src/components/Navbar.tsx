@@ -80,7 +80,7 @@ export default function Navbar() {
                 </ul>
             </div>
             <div className="action">
-                {location.pathname !== '/landing' &&
+                {location.pathname !== '/' &&
                     <>
                         <div className="icon-container" onClick={handleProfileState}>
                             <User/>
@@ -110,8 +110,8 @@ export default function Navbar() {
                         </div>
                     </>
                 }
-                {location.pathname === '/landing' &&
-                    <ButtonComponent text="Connexion" className=""/>
+                {location.pathname === '/' &&
+                    <ButtonComponent text="Connexion" className="" path="/dashboard"/>
                 }
             </div>
         </div>
