@@ -19,21 +19,15 @@ export function DashboardBox({offre,key, favorite}: {offre: Offre, key: number, 
         return text;
     }
 
-    const {getAccessTokenSilently, user } = useAuth0()
 
-    const handleFavoris = async (offre: Offre) => {
-        
-        const token = await getAccessTokenSilently()
-        const userInfos = await authenticatedPost(token, "v1/candidats", {email : user?.email})
-        console.log('userInfos', userInfos)
-    }
+
 
 
   return (
     <div key={key} className="box_offre" style={{animationDelay: `${key * 0.1}s`}} id={offre.id.toString()}>
         <div className="favorite">
-            {!favorite && <FavoriteBorderIcon className="icon_favorite" onClick={() => handleFavoris(offre)}/>}
-            {favorite && <FavoriteIcon onClick={() => handleFavoris(offre)}/>}
+            {!favorite && <FavoriteBorderIcon className="icon_favorite" />}
+            {favorite && <FavoriteIcon />}
         </div>
         <h2 className="titre_offre">{offre.titre_emploi}</h2>
         <p className="description_offre">{description_courting(
