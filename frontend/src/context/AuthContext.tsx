@@ -5,13 +5,6 @@ type AppState = {
     token: string | null;
 };
 
-type User = object | null;
-
-type Action =
-    | { type: 'SET_USER'; payload: User }
-    | { type: 'SET_TOKEN'; payload: string | null };
-
-
 type AppContextProps = {
     state: AppState;
     setState: React.Dispatch<React.SetStateAction<AppState>>;
