@@ -1,15 +1,19 @@
-import {Box} from "@mui/material";
-import {BrowserRouter, Routes, Route, createBrowserRouter, Outlet} from "react-router-dom";
-import {Dashboard} from "./dashboard/Dashboard";
-import {Parametres} from "./parametres/Parametres";
-import {Offre} from "./offre/Offre.tsx";
+import { Box } from "@mui/material";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+} from "react-router-dom";
+import { Dashboard } from "./dashboard/Dashboard";
+import { Parametres } from "./parametres/Parametres";
+import { Offre } from "./offre/Offre.tsx";
 import LandingPage from "./landing-page/LandingPage.tsx";
 import Navbar from "./components/Navbar.tsx";
-import {Auth0Provider} from "@auth0/auth0-react";
-import {Authenticated} from "./auth/Authenticated.tsx";
+import { Auth0Provider } from "@auth0/auth0-react";
+import { Authenticated } from "./auth/Authenticated.tsx";
 import Layout from "./views/Layout.tsx";
-import {AuthProvider} from "./context/AuthContext.tsx";
-import {OffreProvider} from "./context/OffreContext.tsx";
+import { AuthProvider } from "./context/AuthContext.tsx";
+import { OffreProvider } from "./context/OffreContext.tsx";
 
 
 

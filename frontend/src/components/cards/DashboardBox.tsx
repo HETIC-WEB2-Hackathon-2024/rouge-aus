@@ -1,5 +1,4 @@
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import FavoriteIcon from '@mui/icons-material/Favorite';
 export function DashboardBox({offre,key}: {offre: any, key: number}) {
     const description_courting = (text: string) => {
         if (text.length > 100) {
@@ -28,4 +27,3 @@ export function DashboardBox({offre,key}: {offre: any, key: number}) {
     </div>
   );
 }
-

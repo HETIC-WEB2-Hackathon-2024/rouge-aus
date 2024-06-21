@@ -4,7 +4,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import {authenticatedGet} from "../auth/helper";
 import { DashboardBox } from "../components/cards/DashboardBox";
 import RecruteBox from "../components/cards/RecruteBox";
-import {useAuth} from "../context/AuthContext";
+import { useAuth } from "../context/AuthContext";
 import CompleteBox from "../components/cards/profilCompleteBox.tsx";
 export function Dashboard() {
     const { getAccessTokenSilently } = useAuth0();
@@ -33,10 +33,10 @@ export function Dashboard() {
             }
         }
 
-        callApi();
-    }, [state]);
+    callApi();
+  });
 
-  return loading && !user? (
+  return loading && !user ? (
     <Box>chargement...</Box>
   ) : (
     <>
@@ -44,30 +44,28 @@ export function Dashboard() {
         <h1>Hello {user?.name}</h1>
         <h2>Bienvenue dans votre espace stagiaire</h2>
       </div>
-    
-    <Box className="dashboard_container" onClick={() => console.log('state', state.user)}>
-      
-      {error ? (
-        `Dashboard: response from API (with auth) ${error}`
-      ) : (
-        <ul className="dashboard_box_container">
-          {
-            data && data.length>0 && data.map((offre, index) => (
-              <DashboardBox offre={offre} key={index} />
-            ))
-          }
-       
-        </ul>
-      )}
-      {
-        topMetier && <div
-          className="dasboard_section2"
-        >
-        <CompleteBox />
-        <RecruteBox offre={topMetier} key={topMetier[0].metiers} />
-        </div>
-      }
-    </Box>
+
+      <Box
+        className="dashboard_container"
+        onClick={() => console.log("state", state.user)}>
+        {error ? (
+          `Dashboard: response from API (with auth) ${error}`
+        ) : (
+          <ul className="dashboard_box_container">
+            {data &&
+              data.length > 0 &&
+              data.map((offre, index) => (
+                <DashboardBox offre={offre} key={index} />
+              ))}
+          </ul>
+        )}
+        {topMetier && (
+          <div className="dasboard_section2">
+            <CompleteBox />
+            <RecruteBox offre={topMetier} key={topMetier[0].metiers} />
+          </div>
+        )}
+      </Box>
     </>
   );
 }
