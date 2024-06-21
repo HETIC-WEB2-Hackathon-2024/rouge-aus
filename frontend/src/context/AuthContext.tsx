@@ -1,62 +1,65 @@
-import React, {useReducer} from "react";
-import {markOffre} from "./OffreContext.tsx";
+import React, { useEffect, useReducer, useState } from "react";
+import { useAuth0 } from "@auth0/auth0-react";
+import { authenticatedPost } from "../auth/helper.ts";
 
 type AppState = {
-    user: object;
-    token: any
+    user: object | null;
+    token: string | null;
 };
 
-type User = any;
-type Action = any;
+type User = object | null;
+
+type Action =
+    | { type: 'SET_USER'; payload: User }
+    | { type: 'SET_TOKEN'; payload: string | null };
 
 
-type AppContext = {
+type AppContextProps = {
     state: AppState;
-    dispatch: React.Dispatch<Action>;
+    setState: React.Dispatch<React.SetStateAction<AppState>>;
 };
 
-export function setUserInfos(user: User) {
-    return { type: "SET_USER_INFOS", payload: user };
-}
-
-export function setToken(token: string) {
-    return { type: "SET_TOKEN", payload: token };
-}
 
 
-export const initialState: AppState = {
-    user: {},
-    token: null
+const initialState: AppState = {
+    user: null,
+    token: null,
 };
 
-export function reducer(state: AppState, action: Action): AppState {
-    switch (action.type) {
-        case "SET_USER_INFOS": {
-            return {...state, user:action.payload};
-        }
-        case "SET_TOKEN": {
-            return {...state, token: action.payload};
-        }
-        default:
-            return state;
-    }
-}
-
-export const AuthContext = React.createContext<AppContext>({
-    state: initialState,
-    dispatch: () => {},
-});
+export const AuthContext = React.createContext<AppContextProps | undefined>(undefined);
 
 export function useAuth() {
     const context = React.useContext(AuthContext);
-    if(!context){
-        throw new Error('useAppContext must be used within a AppProvider');
+    if (!context) {
+        throw new Error('useAuth must be used within an AuthProvider');
     }
     return context;
 }
 
+function authReducer(state: AppState, action: Action): AppState {
+    switch (action.type) {
+        case 'SET_USER':
+            return { ...state, user: action.payload };
+        case 'SET_TOKEN':
+            return { ...state, token: action.payload };
+        default:
+            return state;
+    }
+}
+type AuthProviderProps = {
+    children: React.ReactNode;
+};
 
-export function AuthProvider({ children }: any) {
-    const [state, dispatch] = useReducer(reducer, initialState);
-    return <AuthContext.Provider value={{ state, dispatch }}>{children}</AuthContext.Provider>
+export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+    const [state, setState] = useState<AppState>({
+        user: null,
+        token: null,
+    });
+
+
+    return (
+        <AuthContext.Provider value={{ state,setState }}>
+            {children}
+        </AuthContext.Provider>
+    );
 }

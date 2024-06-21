@@ -1,9 +1,11 @@
 import {useLocation, useNavigate} from "react-router";
-import {User, LogOut, Settings, CircleUser} from "lucide-react"
+import {User, LogOut, CircleUser, CircleHelp} from "lucide-react"
 import React, {useEffect, useRef, useState} from "react";
 import ButtonComponent from "./ButtonComponent.tsx";
-
+import MenuIcon from '@mui/icons-material/Menu';
+import ClearSharpIcon from '@mui/icons-material/ClearSharp';
 import {useAuth0} from "@auth0/auth0-react";
+import Logo from "./Logo.tsx";
 
 export default function Navbar() {
     const [profileState, setProfileState] = useState(false)
@@ -33,9 +35,9 @@ export default function Navbar() {
             path: "/profile"
         },
         {
-            icon: Settings,
-            name: 'Paramètres',
-            path: "/settings"
+            icon: CircleHelp,
+            name: 'Aide',
+            path: "/aide"
         },
     ]
 
@@ -60,11 +62,42 @@ export default function Navbar() {
     const handleProfileState = () => {
         setProfileState(!profileState)
     }
-
+   const [open, setOpen] = useState(false);
 
     return (
         <div className="navbar">
+            <Logo />
+            <div className="menu">
+                {open ?
+                    <ClearSharpIcon onClick={() => setOpen(false)} style={{width: '30px', height: '30px'}}/>
+                    :
+                    <MenuIcon onClick={() => setOpen(true)} style={{width: '30px', height: '30px'}}/>
+                }
+            </div>
+            {
+                open && <div className="menu_mobile">
+                    <ul>
+                        {navbarList.map((el, index) => {
+                            return (
+                                <div className="list-item" key={index}>
+                                    <li onClick={() => {
+                                        setOpen(false);
+                                        navigation(el.path)
+                                    
+                                    }} className={checkCurrentPath(el.path)}>
+                                        {el.name}
+                                    </li>
+                                    <div className={checkCurrentPath(el.path)}>
+                                    </div>
+                                </div>
+                            )
+                        })}
+                    </ul>
+                </div>
+
+            }
             <div className="navlist">
+            
                 <ul>
                     {navbarList.map((el, index) => {
                         return (
@@ -80,7 +113,7 @@ export default function Navbar() {
                 </ul>
             </div>
             <div className="action">
-                {location.pathname !== '/landing' &&
+                {location.pathname !== '/' &&
                     <>
                         <div className="icon-container" onClick={handleProfileState}>
                             <User/>
@@ -110,8 +143,8 @@ export default function Navbar() {
                         </div>
                     </>
                 }
-                {location.pathname === '/landing' &&
-                    <ButtonComponent text="Connexion" className=""/>
+                {location.pathname === '/' &&
+                    <ButtonComponent text="Connexion" className="" path="/dashboard"/>
                 }
             </div>
         </div>

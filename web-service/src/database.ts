@@ -120,7 +120,8 @@ export function searchOffres(search: string, actualPage: number, lieu: string, c
 }
 
 export function getFirstCandidats(email: string): Promise<any[]> {
-  return query(`SELECT * FROM candidat WHERE candidat.email = $1 LIMIT 1`, [email])
+  console.log("email in database ",email)
+  return query(`SELECT * FROM candidat WHERE email = $1 LIMIT 1`, [email])
     .then(results => results.length > 0 ? results[0] : null);
 }
 
@@ -136,4 +137,16 @@ export function getSecteurs(): Promise<any[]> {
     FROM secteur 
     JOIN metier ON secteur.id = metier.secteur_id;
   `);
+}
+
+type updateProfileProps = {nom: string, prenom: string, telephone: string, pays: string, secteur_activite: string, biographie: string, linkedin: string, site_web: string, email: string}
+export function updateProfile({nom, prenom, telephone, pays, secteur_activite, biographie, linkedin, site_web, email} : updateProfileProps): Promise<any[]> {
+
+  const sql = 
+    `UPDATE candidat 
+    SET nom = $1, prenom = $2, telephone = $3, pays = $4, secteur_activite = $5, biographie = $6, linkedin = $7, site_web = $8
+    WHERE email = $9;`
+
+  const values = [nom, prenom, telephone, pays, secteur_activite, biographie, linkedin, site_web, email];
+  return query(sql, values);
 }
