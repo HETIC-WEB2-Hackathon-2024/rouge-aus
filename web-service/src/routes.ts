@@ -16,8 +16,10 @@ router.get("/v1/offres", async function (_, res) {
 router.post("/v1/candidats", async function (req, res) {
 try {
     const { email } = req.body
+    console.log(email)
     // recuperer le candidat depuis ma base de donne qui correspond au mail dans le body
     const candidat = await getFirstCandidats(email)
+    console.log(candidat)
     res.send(candidat)
 } catch (error) {
     res.status(500).send({ error: "Internal Server Error", reason: error });

@@ -120,7 +120,8 @@ export function searchOffres(search: string, actualPage: number, lieu: string, c
 }
 
 export function getFirstCandidats(email: string): Promise<any[]> {
-  return query(`SELECT * FROM candidat WHERE candidat.email = $1 LIMIT 1`, [email])
+  console.log("email in database ",email)
+  return query(`SELECT * FROM candidat WHERE email = $1 LIMIT 1`, [email])
     .then(results => results.length > 0 ? results[0] : null);
 }
 
