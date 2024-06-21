@@ -1,7 +1,6 @@
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import {authenticatedPost} from "../../auth/helper.ts";
-import {useAuth0} from "@auth0/auth0-react";
+
 
 interface Offre {
     id: number,
