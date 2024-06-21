@@ -1,4 +1,3 @@
-import { Box } from "@mui/material";
 import {
   BrowserRouter,
   Routes,
@@ -13,6 +12,7 @@ import { Auth0Provider } from "@auth0/auth0-react";
 import { Authenticated } from "./auth/Authenticated.tsx";
 import {AuthProvider} from "./context/AuthContext.tsx";
 import { OffreProvider } from "./context/OffreContext.tsx";
+import Selection from "./selection/selection.tsx"
 
 
 
@@ -37,7 +37,7 @@ export function App() {
                                 <Route path="/dashboard" element={<Authenticated children={<Dashboard/>}/>}/>
                                 <Route path="/offres" element={<Authenticated children={<Offre/>}/>}/>
                                 <Route path="/profile" element={<Authenticated children={<Parametres/>}/>}/>
-                                <Route path="/selection" element={<Authenticated children={<Box>Ma sélection</Box>}/>}/>
+                                <Route path="/selection" element={<Authenticated children={<Selection />}/>}/>
                             </Routes>
 
                     </BrowserRouter>

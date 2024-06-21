@@ -1,8 +1,18 @@
 import express, { json } from "express";
 const router = express.Router()
-import { getSearchSuggestions, getSecteurs, query } from "./database";
-import {getFirstCandidats, getFirstOffres, updateProfile, getOffreDashboard, getTopMetier, searchOffres} from "./database";
+import {
+    getFavoris,
+    getFirstCandidats,
+    getSearchSuggestions,
+    getSecteurs,
+    updateFavoris,
+    updateProfile, query
+} from "./database"
+import {getFirstOffres, getOffreDashboard, getTopMetier, searchOffres} from "./database";
 type SearchType = "metier" | "commune" | "contrat" | "default";
+
+
+
 
 router.post("/v1/candidats", async function (req, res) {
 try {
@@ -22,17 +32,24 @@ router.post("/v1/updateProfile", async function (req, res) {
 
         try {
             const profile = await updateProfile({nom : name, prenom : firstname, telephone: phoneNumber, pays: country, secteur_activite: industry, biographie: bio, linkedin: linkedin, site_web: website, email});
-            console.log("PROFIL ICI : ", profile);
             res.status(200).send(profile);
         } catch (error) {
-            console.log("ERREUR LORS DE LA MISE À JOUR", error);
             res.status(500).send({ error: "Erreur lors de la mise à jour du profil" });
         }
     } catch (error) {
-        console.log("ERREUR PROFIL", error);
         res.status(400).send({ error: "Données de requête invalides" });
     }
 })
+
+router.post("/v1/favoris", async function (req, res){
+    try{
+        const {user_id, offre_id} = req.body
+        const favoris = await updateFavoris({user_id, offre_id})
+    }catch(error){
+
+    }
+})
+
 
 router.get("/v1/offres/:page/:count", async function (req, res) {
     try {
@@ -41,7 +58,6 @@ router.get("/v1/offres/:page/:count", async function (req, res) {
         const offres = await getFirstOffres(page, count);
         const queryNumber = await query(`SELECT COUNT(titre_emploi) FROM offre`);
         const NumberPageTotal = Math.ceil(queryNumber[0].count / count)
-        console.log(NumberPageTotal)
         res.status(200).send(
             {
                 offres: offres,
@@ -97,6 +113,13 @@ router.get("/search/:string/:lieu/:contrat/:actualpage", async function (req, re
     }
 })
 
+router.post("/v1/getfavoris", async function (req, res ){
+    const { user_id } =  req.body
+
+    const favoris = await getFavoris(user_id)
+    res.status(200).send(favoris)
+})
+
 router.get("/search/suggest/:string/:typer", async function (req, res) {
     const { string, typer } = req.params;
 
@@ -120,13 +143,13 @@ router.get("/search/suggest/:string/:typer", async function (req, res) {
                 fieldName = "type_contrat";
                 break;
             default:
-                fieldName = "titre_emploi";  
+                fieldName = "titre_emploi";
         }
 
         res.status(200).send(suggestions.map((suggestion: any) => suggestion[fieldName]));
     } catch (error) {
         console.error('Failed to fetch search suggestions:', error);
-        res.status(500).send({ error: "error", reason: error });    
+        res.status(500).send({ error: "error", reason: error });
     }
 });
 router.get("/secteurs", async function (_, res) {
@@ -137,6 +160,6 @@ router.get("/secteurs", async function (_, res) {
         res.status(500).send({ error: "Internal Server Error", reason: error });
     }
 });
-    
+
 
 module.exports = router
