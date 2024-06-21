@@ -8,6 +8,7 @@ export default function Layout(){
     const {dispatch} = useAuth();
     const { getAccessTokenSilently, user } = useAuth0();
     const navigate = useNavigate();
+
     useEffect(() => {
         const setupContext = async () => {
             const token = await getAccessTokenSilently();
@@ -16,8 +17,8 @@ export default function Layout(){
             dispatch(setUserInfos(userInfos));
         }
         setupContext();
-        navigate('/dashboard')
-    },[]);
+        navigate( '/dashboard')
+    }, []);
 
     return null;
 }
