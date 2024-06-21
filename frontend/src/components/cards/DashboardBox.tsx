@@ -2,8 +2,17 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import {authenticatedPost} from "../../auth/helper.ts";
 import {useAuth0} from "@auth0/auth0-react";
+import { array } from '@amcharts/amcharts5';
 
-export function DashboardBox({offre,key, favorite, handleChange}: {offre: any, key: number, favorite?: boolean, handleChange: any}) {
+interface Offre {
+    id: number,
+    titre_emploi: string,
+    description_courte: string,
+    metier: string,
+    nom_commune: string,
+    type_contrat: string,
+}
+export function DashboardBox({offre,key, favorite}: {offre: Offre, key: number, favorite?: boolean}) {
     const description_courting = (text: string) => {
         if (text.length > 100) {
             return text.slice(0, 100) + "...";
@@ -13,8 +22,8 @@ export function DashboardBox({offre,key, favorite, handleChange}: {offre: any, k
 
     const {getAccessTokenSilently, user } = useAuth0()
 
-    const handleFavoris = async (offre) => {
-        handleChange
+    const handleFavoris = async (offre: Offre) => {
+        
         const token = await getAccessTokenSilently()
         const userInfos = await authenticatedPost(token, "v1/candidats", {email : user?.email})
         console.log('userInfos', userInfos)
@@ -23,7 +32,7 @@ export function DashboardBox({offre,key, favorite, handleChange}: {offre: any, k
 
 
   return (
-    <div key={key} className="box_offre" style={{animationDelay: `${key * 0.1}s`}} id={offre.id}>
+    <div key={key} className="box_offre" style={{animationDelay: `${key * 0.1}s`}} id={offre.id.toString()}>
         <div className="favorite">
             {!favorite && <FavoriteBorderIcon className="icon_favorite" onClick={() => handleFavoris(offre)}/>}
             {favorite && <FavoriteIcon onClick={() => handleFavoris(offre)}/>}

@@ -23,8 +23,7 @@ export function Offre() {
   const [totalPages, setTotalPages] = React.useState<number>(0);
   const [searchLieu, setSearchLieu] = React.useState<string>("");
   const [searchContrat, setSearchContrat] = React.useState<string>("");
-  const [favoriteOffreList, setFavoriteOffreList] = React.useState(null);
-  const [changes, setChanges] = React.useState(false)
+
   React.useEffect(() => {
     async function callApi() {
       try {
@@ -32,11 +31,8 @@ export function Offre() {
         setLoading(true);
         window.scrollTo(0, 0);
         const token = await getAccessTokenSilently();
-        const userInfos = await authenticatedPost(token, "v1/candidats/", {email: user?.email} )
         const document = await authenticatedGet(token, `/v1/offres/${actualPage}/16`);
-        const favoriteList = await authenticatedPost(token, "v1/getfavoris/", {user_id : userInfos.id})
-          console.log('favoriteList', favoriteList)
-        setFavoriteOffreList(favoriteList)
+
         setData(document.offres);
         setTotalPages(document.NumberPageTotal);
         console.log(document)
@@ -47,11 +43,9 @@ export function Offre() {
       }
     }
     callApi();
-  }, [getAccessTokenSilently, actualPage, changes]);
+  }, [getAccessTokenSilently, actualPage]);
 
-    const handleChange = () => {
-        setChanges(prevState => !prevState);
-    };
+   
 
 
 
@@ -93,11 +87,7 @@ export function Offre() {
     setActualPage(value);
   }
 
-    const isFavorite = (offreId: number) => {
-        // Use the some() method to check if any element in favoriteOffreList matches the offreId
-        const isFav = favoriteOffreList?.some((el) => el.id === offreId);
-        return isFav;
-    }
+
 
     console.log("la requête a abouti");
     return (
@@ -115,19 +105,19 @@ export function Offre() {
           </div>
            {
             data.map((offre, index) => {
-              return <DashboardBox key={index} offre={offre} favorite={isFavorite(offre.id)} handleChange={handleChange}/>
+              return <DashboardBox key={index} offre={offre}  />
             })
            }
           </> 
            : searchData.length > 0 ? searchData.map((offre, index) => {
             return(
             
-              <DashboardBox key={index} offre={offre} favorite={isFavorite(offre.id)} handleChange={handleChange}/>
+              <DashboardBox key={index} offre={offre}  />
             
             )
            
           }) : data.length > 0 ? data.map((offre, index) => {
-            return <DashboardBox key={index} offre={offre} favorite={isFavorite(offre.id)} handleChange={handleChange}/>
+            return <DashboardBox key={index} offre={offre}  />
           }) : <SimpleBackdrop />
 
         }
