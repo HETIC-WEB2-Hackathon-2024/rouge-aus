@@ -36,16 +36,15 @@ export function Parametres() {
       <>
         <div className="profile-container">
           <div className="profile-details">
-            <p className="profile-item">Nom: {data?.nom}</p>
-            <p className="profile-item">Prénom: {data?.prenom}</p>
-            <p className="profile-item">Téléphone: {data?.telephone}</p>
-            <p className="profile-item">Email: {data?.email}</p>
-            <p className="profile-item">Pays: {data?.pays}</p>
-            <p className="profile-item">Date de naissance: {data?.date_naissance}</p>
-            <p className="profile-item">Secteur d'activité: {data?.secteur_activite}</p>
-            <p className="profile-item">Biographie: {data?.biographie}</p>
-            <p className="profile-item">LinkedIn: {data?.linkedin}</p>
-            <p className="profile-item">Site web externe: {data?.site_web}</p>
+            <p className="profile-item-email"><span className="profile-data-email">{data?.email}</span></p>
+            <p className="profile-item">Nom <span className="profile-data">{data?.nom}</span></p>
+            <p className="profile-item">Prénom <span className="profile-data">{data?.prenom}</span></p>
+            <p className="profile-item">Téléphone <span className="profile-data">{data?.telephone}</span></p>
+            <p className="profile-item">Pays <span className="profile-data">{data?.pays}</span></p>
+            <p className="profile-item">Secteur d'activité <span className="profile-data">{data?.secteur_activite}</span></p>
+            <p className="profile-item">LinkedIn <span className="profile-data">{data?.linkedin}</span></p>
+            <p className="profile-item">Site web externe <span className="profile-data">{data?.site_web}</span></p>
+            <p className="profile-item">Biographie <span className="profile-data">{data?.biographie}</span></p>
           </div>
           <div className="button-container">
             <button className="edit-button" onClick={() => setModificationMode(true)}>Modifier</button>

@@ -1,5 +1,5 @@
 import {useLocation, useNavigate} from "react-router";
-import {User, LogOut, Settings, CircleUser, CircleHelp} from "lucide-react"
+import {User, LogOut, CircleUser, CircleHelp} from "lucide-react"
 import React, {useEffect, useRef, useState} from "react";
 import ButtonComponent from "./ButtonComponent.tsx";
 
