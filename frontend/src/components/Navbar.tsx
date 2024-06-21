@@ -1,9 +1,10 @@
 import {useLocation, useNavigate} from "react-router";
-import {User, LogOut, Settings, CircleUser} from "lucide-react"
+import {User, LogOut, CircleUser, CircleHelp} from "lucide-react"
 import React, {useEffect, useRef, useState} from "react";
 import ButtonComponent from "./ButtonComponent.tsx";
 
 import {useAuth0} from "@auth0/auth0-react";
+import Logo from "./Logo.tsx";
 
 export default function Navbar() {
     const [profileState, setProfileState] = useState(false)
@@ -33,9 +34,9 @@ export default function Navbar() {
             path: "/profile"
         },
         {
-            icon: Settings,
-            name: 'Paramètres',
-            path: "/settings"
+            icon: CircleHelp,
+            name: 'Aide',
+            path: "/aide"
         },
     ]
 
@@ -64,6 +65,7 @@ export default function Navbar() {
 
     return (
         <div className="navbar">
+            <Logo />
             <div className="navlist">
                 <ul>
                     {navbarList.map((el, index) => {

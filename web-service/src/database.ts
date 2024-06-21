@@ -138,3 +138,15 @@ export function getSecteurs(): Promise<any[]> {
     JOIN metier ON secteur.id = metier.secteur_id;
   `);
 }
+
+type updateProfileProps = {nom: string, prenom: string, telephone: string, pays: string, secteur_activite: string, biographie: string, linkedin: string, site_web: string, email: string}
+export function updateProfile({nom, prenom, telephone, pays, secteur_activite, biographie, linkedin, site_web, email} : updateProfileProps): Promise<any[]> {
+
+  const sql = 
+    `UPDATE candidat 
+    SET nom = $1, prenom = $2, telephone = $3, pays = $4, secteur_activite = $5, biographie = $6, linkedin = $7, site_web = $8
+    WHERE email = $9;`
+
+  const values = [nom, prenom, telephone, pays, secteur_activite, biographie, linkedin, site_web, email];
+  return query(sql, values);
+}
