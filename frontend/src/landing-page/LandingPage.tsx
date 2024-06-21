@@ -7,7 +7,7 @@ import {useAuth} from "../context/AuthContext.tsx";
 import {useEffect} from "react";
 import {useNavigate} from "react-router";
 
-export default function LandingPage() {
+export default function LandingPage({ name }) {
 const {state} = useAuth();
 
     const title: string = 'Cherchez. Postulez. Trouvez'

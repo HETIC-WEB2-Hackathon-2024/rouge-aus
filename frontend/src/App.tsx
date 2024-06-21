@@ -29,7 +29,7 @@ export function App() {
                             }}
                         >
                             <Routes>
-                                <Route path="/" element={<Authenticated children={<LandingPage/>}/>}/>
+                                <Route path="/" element={<Authenticated children={<LandingPage name="landing-page"/>}/>}/>
                                 <Route path="/layout" element={<Authenticated children={<Layout/>}/>}/>
                                 <Route path="/dashboard" element={<Authenticated children={<Dashboard/>}/>}/>
                                 <Route path="/offres" element={<Authenticated children={<Offre/>}/>}/>
