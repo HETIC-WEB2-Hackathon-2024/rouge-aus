@@ -4,7 +4,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { authenticatedGet } from '../auth/helper';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 
-export const SearchComponent = ({search, setSearch, setIsFocus, isFocus, searchOffres,lieu,setLieu,loading,Noresult,contrat,setContrat}: {search: string, setSearch: React.Dispatch<React.SetStateAction<string>>, setIsFocus: React.Dispatch<React.SetStateAction<boolean>>, isFocus: boolean, searchOffres: (search: string) => void,lieu: string, setLieu: React.Dispatch<React.SetStateAction<string>>,contrat: string, setContrat: React.Dispatch<React.SetStateAction<string>>,loading: boolean,Noresult: boolean}) => {
+export const SearchComponent = ({search, setSearch, setIsFocus, isFocus, searchOffres,lieu,setLieu,contrat,setContrat}: {search: string, setSearch: React.Dispatch<React.SetStateAction<string>>, setIsFocus: React.Dispatch<React.SetStateAction<boolean>>, isFocus: boolean, searchOffres: (search: string) => void,lieu: string, setLieu: React.Dispatch<React.SetStateAction<string>>,contrat: string, setContrat: React.Dispatch<React.SetStateAction<string>>,loading: boolean,Noresult: boolean}) => {
     const  [suggest, setSuggest] = React.useState<string[]>([]);
     const { getAccessTokenSilently } = useAuth0();
     const [type, setType] = React.useState<string>("metier");
